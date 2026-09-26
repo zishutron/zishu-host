@@ -1,0 +1,140 @@
+name: Build Python ARM64
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/build-python.yml'
+      - 'scripts/build-python.sh'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gcc-aarch64-linux-gnu \
+            g++-aarch64-linux-gnu \
+            wget \
+            make \
+            file \
+            zlib1g-dev \
+            libssl-dev \
+            libffi-dev \
+            libbz2-dev \
+            libreadline-dev \
+            libsqlite3-dev \
+            libncurses5-dev \
+            libgdbm-dev \
+            liblzma-dev \
+            uuid-dev \
+            tk-dev
+
+      - name: Download Python source
+        run: |
+          PYTHON_VERSION="3.11.9"
+          wget "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz"
+          tar xzf "Python-${PYTHON_VERSION}.tgz"
+          mv "Python-${PYTHON_VERSION}" python-src
+          echo "PYTHON_VERSION=${PYTHON_VERSION}" >> $GITHUB_ENV
+
+      - name: Configure Python
+        run: |
+          cd python-src
+          # Cross-compile configuration
+          ./configure \
+            --host=aarch64-linux-gnu \
+            --build=x86_64-linux-gnu \
+            --prefix=/usr \
+            --enable-shared \
+            --disable-ipv6 \
+            --without-ensurepip \
+            --with-system-ffi \
+            2>&1 | tail -30
+
+      - name: Build Python
+        run: |
+          cd python-src
+          make -j$(nproc) 2>&1 | tee build.log
+          ls -la python
+
+      - name: Show build errors (if any)
+        if: failure()
+        run: |
+          cd python-src
+          tail -100 build.log
+
+      - name: Install to staging
+        if: success()
+        run: |
+          cd python-src
+          make install DESTDIR=$PWD/staging 2>&1 | tail -20
+          find staging -type f | head -20
+
+      - name: Package
+        if: success()
+        run: |
+          mkdir -p output/files/bin
+          mkdir -p output/files/lib
+          mkdir -p output/files/share
+
+          # Copy binaries
+          cp python-src/staging/usr/bin/python3.11 output/files/bin/python3.11
+          cd output/files/bin
+          ln -sf python3.11 python3
+          ln -sf python3.11 python
+          cd ../../..
+
+          # Copy libraries
+          cp -P python-src/staging/usr/lib/libpython3.11* output/files/lib/ 2>/dev/null || true
+
+          # Copy stdlib
+          cp -r python-src/staging/usr/lib/python3.11 output/files/lib/
+
+          # MANIFEST
+          cat > output/MANIFEST << EOF
+          name=python
+          version=${PYTHON_VERSION}
+          description=Python ${PYTHON_VERSION} for Zishu Terminal
+          author=zishu
+          type=binary
+          arch=arm64-v8a
+          entrypoint=python3
+          EOF
+
+          # Tarball
+          cd output
+          tar czf ../python-${PYTHON_VERSION}-arm64.tar.gz MANIFEST files/
+          cd ..
+          sha256sum python-${PYTHON_VERSION}-arm64.tar.gz > python-${PYTHON_VERSION}-arm64.tar.gz.sha256
+          ls -la python-${PYTHON_VERSION}-arm64.tar.gz*
+
+      - name: Upload artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-arm64
+          path: python-*-arm64.tar.gz*
+
+      - name: Create release
+        if: success() && github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: python-v${{ env.PYTHON_VERSION }}-${{ github.run_number }}
+          name: Python ${{ env.PYTHON_VERSION }} ARM64
+          body: |
+            Python ${{ env.PYTHON_VERSION }} built for ARM64 (aarch64).
+          files: |
+            python-${{ env.PYTHON_VERSION }}-arm64.tar.gz
+            python-${{ env.PYTHON_VERSION }}-arm64.tar.gz.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
