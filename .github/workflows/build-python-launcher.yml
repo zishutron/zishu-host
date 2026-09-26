@@ -13,18 +13,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install cross-compiler
+      - name: Download Android NDK
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu wget unzip file
-
-      - name: Download Chaquopy headers
-        run: |
-          wget https://repo.maven.apache.org/maven2/com/chaquo/python/target/3.13.9-0/target-3.13.9-0-arm64-v8a.zip
-          mkdir -p chaquopy
-          cd chaquopy
-          unzip ../target-3.13.9-0-arm64-v8a.zip
-          ls -la include/
+          wget -q https://dl.google.com/android/repository/android-ndk-r26b-linux.zip
+          unzip -q android-ndk-r26b-linux.zip
+          echo "NDK=$PWD/android-ndk-r26b" >> $GITHUB_ENV
+          ls -la $PWD/android-ndk-r26b/toolchains/llvm/prebuilt/linux-x86_64/bin/ | head -20
 
       - name: Create launcher.c
         run: |
@@ -36,11 +30,9 @@ jobs:
           typedef int (*py_main_func)(int, char**);
 
           int main(int argc, char *argv[]) {
-              // Set Python home environment variable
               setenv("PYTHONHOME", "/data/user/0/com.zishu.terminal/files/usr", 1);
               setenv("PYTHONPATH", "/data/user/0/com.zishu.terminal/files/usr/lib/python3.13:/data/user/0/com.zishu.terminal/files/usr/lib/python3.13/lib-dynload", 1);
 
-              // Try to load libpython3.13.so from multiple paths
               const char *lib_paths[] = {
                   "/data/user/0/com.zishu.terminal/files/usr/lib/libpython3.13.so",
                   "/data/data/com.zishu.terminal/files/usr/lib/libpython3.13.so",
@@ -51,9 +43,7 @@ jobs:
               void *handle = NULL;
               for (int i = 0; lib_paths[i] != NULL; i++) {
                   handle = dlopen(lib_paths[i], RTLD_LAZY | RTLD_GLOBAL);
-                  if (handle != NULL) {
-                      break;
-                  }
+                  if (handle != NULL) break;
               }
 
               if (handle == NULL) {
@@ -65,33 +55,25 @@ jobs:
               py_main_func Py_Main = (py_main_func) dlsym(handle, "Py_Main");
               if (Py_Main == NULL) {
                   fprintf(stderr, "Error: Py_Main not found\n");
-                  fprintf(stderr, "dlerror: %s\n", dlerror());
                   dlclose(handle);
                   return 1;
               }
 
               int result = Py_Main(argc, argv);
-
               dlclose(handle);
               return result;
           }
           EOF
           cat launcher.c
 
-      - name: Build launcher
+      - name: Build launcher with NDK
         run: |
-          aarch64-linux-gnu-gcc \
+          $NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang \
             -o python3 \
             launcher.c \
-            -ldl \
-            -static-libgcc
+            -ldl
           file python3
           ls -la python3
-
-      - name: Verify binary
-        run: |
-          file python3
-          readelf -d python3 | head -20
 
       - name: Package
         run: |
@@ -127,9 +109,6 @@ jobs:
         with:
           tag_name: python-launcher-v3.13.9-${{ github.run_number }}
           name: Python Launcher 3.13.9 ARM64
-          body: |
-            Python 3.13.9 launcher for Zishu Terminal.
-            Uses Chaquopy Python runtime via dlopen.
           files: |
             python-launcher-3.13.9-arm64.tar.gz
             python-launcher-3.13.9-arm64.tar.gz.sha256
