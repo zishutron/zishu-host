@@ -1,0 +1,107 @@
+name: Build Python Launcher
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install cross-compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu file
+
+      - name: Download Chaquopy headers
+        run: |
+          # Download headers from Chaquopy
+          wget https://repo.maven.apache.org/maven2/com/chaquo/python/target/3.13.9-0/target-3.13.9-0-arm64-v8a.zip
+          mkdir -p chaquopy
+          cd chaquopy
+          unzip ../target-3.13.9-0-arm64-v8a.zip
+          ls -la include/
+
+      - name: Create launcher
+        run: |
+          cat > launcher.c << 'EOF'
+          #include <Python.h>
+          #include <locale.h>
+          #include <wchar.h>
+
+          int main(int argc, char *argv[]) {
+              setlocale(LC_ALL, "");
+              Py_SetPythonHome(L"/data/user/0/com.zishu.terminal/files/usr");
+              Py_Initialize();
+              wchar_t **wargv = PyMem_RawMalloc(sizeof(wchar_t*) * (argc + 1));
+              for (int i = 0; i < argc; i++) {
+                  size_t len = mbstowcs(NULL, argv[i], 0) + 1;
+                  wargv[i] = PyMem_RawMalloc(len * sizeof(wchar_t));
+                  mbstowcs(wargv[i], argv[i], len);
+              }
+              wargv[argc] = NULL;
+              PySys_SetArgvEx(argc, wargv, 0);
+              int result = Py_Main(argc, wargv);
+              Py_Finalize();
+              return result;
+          }
+          EOF
+
+      - name: Build launcher
+        run: |
+          aarch64-linux-gnu-gcc \
+            -o python3 \
+            launcher.c \
+            -I chaquopy/include/python3.13 \
+            -L chaquopy/jniLibs/arm64-v8a \
+            -lpython3.13 \
+            -Wl,-rpath,/data/user/0/com.zishu.terminal/files/usr/lib \
+            -Wl,-rpath-link,chaquopy/jniLibs/arm64-v8a \
+            -Wl,--allow-shlib-undefined
+          file python3
+          ls -la python3
+
+      - name: Package
+        run: |
+          mkdir -p output/files/bin
+          cp python3 output/files/bin/python3
+          chmod +x output/files/bin/python3
+
+          cat > output/MANIFEST << 'EOF'
+          name=python-launcher
+          version=3.13.9
+          description=Python 3.13.9 launcher for Zishu Terminal
+          author=zishu
+          type=binary
+          arch=arm64-v8a
+          entrypoint=python3
+          EOF
+
+          cd output
+          tar czf ../python-launcher-3.13.9-arm64.tar.gz MANIFEST files/
+          cd ..
+          sha256sum python-launcher-3.13.9-arm64.tar.gz > python-launcher-3.13.9-arm64.tar.gz.sha256
+          ls -la python-launcher-3.13.9-arm64.tar.gz*
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-launcher
+          path: python-launcher-3.13.9-arm64.tar.gz*
+
+      - name: Create release
+        if: github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: python-launcher-v3.13.9-${{ github.run_number }}
+          name: Python Launcher 3.13.9 ARM64
+          files: |
+            python-launcher-3.13.9-arm64.tar.gz
+            python-launcher-3.13.9-arm64.tar.gz.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
