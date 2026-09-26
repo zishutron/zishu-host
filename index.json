@@ -1,0 +1,62 @@
+{
+  "repository": "Zishu Official Packages",
+  "version": 1,
+  "updated": "2026-09-26T10:00:00Z",
+  "packages": [
+    {
+      "name": "zfetch",
+      "version": "1.0.0",
+      "description": "Neofetch-style system info for Zishu Terminal",
+      "author": "zishu",
+      "size": 2048,
+      "sha256": "TBD",
+      "url": "packages/zfetch/1.0.0/zfetch.zip",
+      "type": "script",
+      "entrypoint": "zfetch"
+    },
+    {
+      "name": "zcalc",
+      "version": "1.0.0",
+      "description": "Command-line calculator with basic operations",
+      "author": "zishu",
+      "size": 1536,
+      "sha256": "TBD",
+      "url": "packages/zcalc/1.0.0/zcalc.zip",
+      "type": "script",
+      "entrypoint": "zcalc"
+    },
+    {
+      "name": "ztree",
+      "version": "1.0.0",
+      "description": "Directory tree viewer",
+      "author": "zishu",
+      "size": 1792,
+      "sha256": "TBD",
+      "url": "packages/ztree/1.0.0/ztree.zip",
+      "type": "script",
+      "entrypoint": "ztree"
+    },
+    {
+      "name": "znotes",
+      "version": "1.0.0",
+      "description": "Quick notes from the terminal",
+      "author": "zishu",
+      "size": 2048,
+      "sha256": "TBD",
+      "url": "packages/znotes/1.0.0/znotes.zip",
+      "type": "script",
+      "entrypoint": "znotes"
+    },
+    {
+      "name": "ztodo",
+      "version": "1.0.0",
+      "description": "Simple todo list manager",
+      "author": "zishu",
+      "size": 2560,
+      "sha256": "TBD",
+      "url": "packages/ztodo/1.0.0/ztodo.zip",
+      "type": "script",
+      "entrypoint": "ztodo"
+    }
+  ]
+}
