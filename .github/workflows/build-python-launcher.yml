@@ -16,55 +16,82 @@ jobs:
       - name: Install cross-compiler
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu file
+          sudo apt-get install -y gcc-aarch64-linux-gnu wget unzip file
 
       - name: Download Chaquopy headers
         run: |
-          # Download headers from Chaquopy
           wget https://repo.maven.apache.org/maven2/com/chaquo/python/target/3.13.9-0/target-3.13.9-0-arm64-v8a.zip
           mkdir -p chaquopy
           cd chaquopy
           unzip ../target-3.13.9-0-arm64-v8a.zip
           ls -la include/
 
-      - name: Create launcher
+      - name: Create launcher.c
         run: |
           cat > launcher.c << 'EOF'
-          #include <Python.h>
-          #include <locale.h>
-          #include <wchar.h>
+          #include <stdio.h>
+          #include <stdlib.h>
+          #include <dlfcn.h>
+
+          typedef int (*py_main_func)(int, char**);
 
           int main(int argc, char *argv[]) {
-              setlocale(LC_ALL, "");
-              Py_SetPythonHome(L"/data/user/0/com.zishu.terminal/files/usr");
-              Py_Initialize();
-              wchar_t **wargv = PyMem_RawMalloc(sizeof(wchar_t*) * (argc + 1));
-              for (int i = 0; i < argc; i++) {
-                  size_t len = mbstowcs(NULL, argv[i], 0) + 1;
-                  wargv[i] = PyMem_RawMalloc(len * sizeof(wchar_t));
-                  mbstowcs(wargv[i], argv[i], len);
+              // Set Python home environment variable
+              setenv("PYTHONHOME", "/data/user/0/com.zishu.terminal/files/usr", 1);
+              setenv("PYTHONPATH", "/data/user/0/com.zishu.terminal/files/usr/lib/python3.13:/data/user/0/com.zishu.terminal/files/usr/lib/python3.13/lib-dynload", 1);
+
+              // Try to load libpython3.13.so from multiple paths
+              const char *lib_paths[] = {
+                  "/data/user/0/com.zishu.terminal/files/usr/lib/libpython3.13.so",
+                  "/data/data/com.zishu.terminal/files/usr/lib/libpython3.13.so",
+                  "libpython3.13.so",
+                  NULL
+              };
+
+              void *handle = NULL;
+              for (int i = 0; lib_paths[i] != NULL; i++) {
+                  handle = dlopen(lib_paths[i], RTLD_LAZY | RTLD_GLOBAL);
+                  if (handle != NULL) {
+                      break;
+                  }
               }
-              wargv[argc] = NULL;
-              PySys_SetArgvEx(argc, wargv, 0);
-              int result = Py_Main(argc, wargv);
-              Py_Finalize();
+
+              if (handle == NULL) {
+                  fprintf(stderr, "Error: could not load libpython3.13.so\n");
+                  fprintf(stderr, "dlerror: %s\n", dlerror());
+                  return 1;
+              }
+
+              py_main_func Py_Main = (py_main_func) dlsym(handle, "Py_Main");
+              if (Py_Main == NULL) {
+                  fprintf(stderr, "Error: Py_Main not found\n");
+                  fprintf(stderr, "dlerror: %s\n", dlerror());
+                  dlclose(handle);
+                  return 1;
+              }
+
+              int result = Py_Main(argc, argv);
+
+              dlclose(handle);
               return result;
           }
           EOF
+          cat launcher.c
 
       - name: Build launcher
         run: |
           aarch64-linux-gnu-gcc \
             -o python3 \
             launcher.c \
-            -I chaquopy/include/python3.13 \
-            -L chaquopy/jniLibs/arm64-v8a \
-            -lpython3.13 \
-            -Wl,-rpath,/data/user/0/com.zishu.terminal/files/usr/lib \
-            -Wl,-rpath-link,chaquopy/jniLibs/arm64-v8a \
-            -Wl,--allow-shlib-undefined
+            -ldl \
+            -static-libgcc
           file python3
           ls -la python3
+
+      - name: Verify binary
+        run: |
+          file python3
+          readelf -d python3 | head -20
 
       - name: Package
         run: |
@@ -75,7 +102,7 @@ jobs:
           cat > output/MANIFEST << 'EOF'
           name=python-launcher
           version=3.13.9
-          description=Python 3.13.9 launcher for Zishu Terminal
+          description=Python 3.13.9 launcher for Zishu Terminal (Chaquopy runtime)
           author=zishu
           type=binary
           arch=arm64-v8a
@@ -100,6 +127,9 @@ jobs:
         with:
           tag_name: python-launcher-v3.13.9-${{ github.run_number }}
           name: Python Launcher 3.13.9 ARM64
+          body: |
+            Python 3.13.9 launcher for Zishu Terminal.
+            Uses Chaquopy Python runtime via dlopen.
           files: |
             python-launcher-3.13.9-arm64.tar.gz
             python-launcher-3.13.9-arm64.tar.gz.sha256
