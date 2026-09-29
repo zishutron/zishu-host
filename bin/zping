@@ -1,0 +1,86 @@
+#!/system/bin/sh
+# zping - Zishu Multi-Host Ping Tool
+# Android-compatible version
+
+set -e
+
+R='\033[0;31m'
+G='\033[0;32m'
+Y='\033[0;33m'
+C='\033[0;36m'
+N='\033[0m'
+
+DEFAULT_HOSTS="1.1.1.1 8.8.8.8 google.com cloudflare.com"
+
+print_header() {
+    echo ""
+    echo "${C}===========================================${N}"
+    echo "${C}|${N}  ${G}Zishu Multi-Ping${N}                      ${C}|${N}"
+    echo "${C}===========================================${N}"
+    echo ""
+}
+
+usage() {
+    echo "Usage: zping [options] [host1] [host2] ..."
+    echo ""
+    echo "Options:"
+    echo "  -c COUNT      Ping count (default: 3)"
+    echo "  -t TIMEOUT    Timeout seconds (default: 2)"
+    echo "  -h            Help"
+    echo ""
+    echo "Examples:"
+    echo "  zping"
+    echo "  zping google.com"
+    echo "  zping -c 5 google.com 8.8.8.8"
+    echo ""
+}
+
+COUNT=3
+TIMEOUT=2
+HOSTS=""
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -c) COUNT="$2"; shift 2 ;;
+        -t) TIMEOUT="$2"; shift 2 ;;
+        -h|--help) usage; exit 0 ;;
+        -*) echo "Unknown: $1"; usage; exit 1 ;;
+        *) HOSTS="$HOSTS $1"; shift ;;
+    esac
+done
+
+if [ -z "$HOSTS" ]; then
+    HOSTS="$DEFAULT_HOSTS"
+fi
+
+if ! command -v ping >/dev/null 2>&1; then
+    echo "${R}Error:${N} ping not available"
+    exit 1
+fi
+
+print_header
+echo "  Count: $COUNT  |  Timeout: ${TIMEOUT}s"
+echo ""
+
+for host in $HOSTS; do
+    OUTPUT=$(ping -c "$COUNT" -W "$TIMEOUT" "$host" 2>&1)
+    EXIT_CODE=$?
+    
+    if [ $EXIT_CODE -eq 0 ]; then
+        # Try to extract avg time
+        AVG_LINE=$(echo "$OUTPUT" | grep "avg" | head -1)
+        if [ -n "$AVG_LINE" ]; then
+            AVG=$(echo "$AVG_LINE" | cut -d'/' -f5)
+        else
+            AVG="?"
+        fi
+        
+        echo "  ${G}[OK]${N}   $host  (avg: ${AVG}ms)"
+    else
+        echo "  ${R}[FAIL]${N} $host"
+    fi
+done
+
+echo ""
+echo "${C}===========================================${N}"
+echo ""
