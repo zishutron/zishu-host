@@ -3,15 +3,11 @@
 # Part of Zishu Terminal (com.zishu.terminal)
 # License: MIT
 # Copyright (c) 2025 ZISHU TRON
-# Android-compatible: No awk, limited grep
+# Android-compatible: No awk, uses /proc/net for reliability
 
-set -e
-
-# Colors
 R='\033[0;31m'
 G='\033[0;32m'
 Y='\033[0;33m'
-B='\033[0;34m'
 C='\033[0;36m'
 N='\033[0m'
 
@@ -26,22 +22,17 @@ print_header() {
 get_local_ip() {
     IP=""
     
-    # Method 1: getprop
+    # Try getprop first (fastest)
     IP=$(getprop dhcp.wlan0.ipaddress 2>/dev/null)
     
-    # Method 2: ip command with simple grep
+    # Fallback: ip command
     if [ -z "$IP" ] && command -v ip >/dev/null 2>&1; then
         IP=$(ip -4 addr show wlan0 2>/dev/null | grep "inet " | cut -d' ' -f6 | cut -d'/' -f1)
     fi
     
-    # Method 3: any interface
-    if [ -z "$IP" ] && command -v ip >/dev/null 2>&1; then
-        IP=$(ip -4 addr show 2>/dev/null | grep "inet " | grep -v "127.0.0.1" | cut -d' ' -f6 | cut -d'/' -f1 | head -1)
-    fi
-    
-    # Method 4: ifconfig
-    if [ -z "$IP" ] && command -v ifconfig >/dev/null 2>&1; then
-        IP=$(ifconfig wlan0 2>/dev/null | grep "inet addr" | cut -d':' -f2 | cut -d' ' -f1)
+    # Fallback: /proc/net
+    if [ -z "$IP" ]; then
+        IP=$(cat /proc/net/fib_trie 2>/dev/null | grep -A1 "wlan0" | grep "/32 host" | head -1)
     fi
     
     if [ -z "$IP" ]; then
@@ -54,12 +45,39 @@ get_local_ip() {
 get_gateway() {
     GW=""
     
-    # Method 1: getprop
-    GW=$(getprop dhcp.wlan0.gateway 2>/dev/null)
+    # Method 1: /proc/net/route (most reliable, always available)
+    if [ -f /proc/net/route ]; then
+        # Default route has Destination=00000000
+        GW_HEX=$(grep -E "^wlan0\s+00000000" /proc/net/route 2>/dev/null | head -1 | cut -f3)
+        if [ -n "$GW_HEX" ]; then
+            # Convert hex to IP (little-endian)
+            # 0102A8C0 -> C0A80201 -> 192.168.2.1
+            # But we can't use awk, so we use shell arithmetic
+            HEX="$GW_HEX"
+            # Reverse byte order
+            B1=$(echo "$HEX" | cut -c7-8)
+            B2=$(echo "$HEX" | cut -c5-6)
+            B3=$(echo "$HEX" | cut -c3-4)
+            B4=$(echo "$HEX" | cut -c1-2)
+            # Convert hex to decimal
+            D1=$(printf "%d" "0x$B1" 2>/dev/null)
+            D2=$(printf "%d" "0x$B2" 2>/dev/null)
+            D3=$(printf "%d" "0x$B3" 2>/dev/null)
+            D4=$(printf "%d" "0x$B4" 2>/dev/null)
+            if [ -n "$D1" ] && [ -n "$D2" ] && [ -n "$D3" ] && [ -n "$D4" ]; then
+                GW="$D1.$D2.$D3.$D4"
+            fi
+        fi
+    fi
     
     # Method 2: ip route
     if [ -z "$GW" ] && command -v ip >/dev/null 2>&1; then
         GW=$(ip route 2>/dev/null | grep "default" | cut -d' ' -f3 | head -1)
+    fi
+    
+    # Method 3: getprop
+    if [ -z "$GW" ]; then
+        GW=$(getprop dhcp.wlan0.gateway 2>/dev/null)
     fi
     
     if [ -z "$GW" ]; then
@@ -72,9 +90,22 @@ get_gateway() {
 get_dns() {
     DNS=""
     
+    # Method 1: getprop
     DNS=$(getprop net.dns1 2>/dev/null)
+    
+    # Method 2: dhcp property
     if [ -z "$DNS" ]; then
         DNS=$(getprop dhcp.wlan0.dns1 2>/dev/null)
+    fi
+    
+    # Method 3: /etc/resolv.conf
+    if [ -z "$DNS" ] && [ -f /etc/resolv.conf ]; then
+        DNS=$(grep "nameserver" /etc/resolv.conf 2>/dev/null | head -1 | cut -d' ' -f2)
+    fi
+    
+    # Method 4: search all dns props
+    if [ -z "$DNS" ] && command -v getprop >/dev/null 2>&1; then
+        DNS=$(getprop | grep "dns" | head -1 | cut -d'[' -f2 | cut -d']' -f1)
     fi
     
     if [ -z "$DNS" ]; then
@@ -87,18 +118,18 @@ get_dns() {
 get_interface() {
     IF=""
     
-    # Method 1: check wlan0
-    if command -v ip >/dev/null 2>&1; then
-        IF=$(ip link show 2>/dev/null | grep "^[0-9]" | cut -d':' -f2 | grep -v "lo" | head -1 | tr -d ' ')
+    # Check /sys/class/net (reliable)
+    if [ -d /sys/class/net/wlan0 ]; then
+        IF="wlan0"
+    elif [ -d /sys/class/net/eth0 ]; then
+        IF="eth0"
+    elif [ -d /sys/class/net/rmnet0 ]; then
+        IF="rmnet0"
     fi
     
-    if [ -z "$IF" ]; then
-        # Check if wlan0 exists
-        if [ -d /sys/class/net/wlan0 ]; then
-            IF="wlan0"
-        elif [ -d /sys/class/net/eth0 ]; then
-            IF="eth0"
-        fi
+    # Fallback: ip command
+    if [ -z "$IF" ] && command -v ip >/dev/null 2>&1; then
+        IF=$(ip link show 2>/dev/null | grep "^[0-9]" | cut -d':' -f2 | grep -v "lo" | head -1 | tr -d ' ')
     fi
     
     if [ -z "$IF" ]; then
@@ -109,24 +140,30 @@ get_interface() {
 }
 
 get_public_ip() {
-    # Try with curl
-    if command -v curl >/dev/null 2>&1; then
-        RESULT=$(curl -s --max-time 5 https://api.ipify.org 2>/dev/null)
-        if [ -n "$RESULT" ]; then
-            echo "$RESULT"
-            return
-        fi
+    # Try with curl (Zishu Java curl)
+    # Use simple call — Zishu curl handles it
+    RESULT=$(curl -s https://api.ipify.org 2>/dev/null)
+    
+    if [ -n "$RESULT" ]; then
+        echo "$RESULT"
+        return
     fi
     
-    if command -v zcurl >/dev/null 2>&1; then
-        RESULT=$(zcurl -s --max-time 5 https://api.ipify.org 2>/dev/null)
-        if [ -n "$RESULT" ]; then
-            echo "$RESULT"
-            return
-        fi
+    # Fallback: try ipinfo
+    RESULT=$(curl -s https://ipinfo.io/ip 2>/dev/null)
+    if [ -n "$RESULT" ]; then
+        echo "$RESULT"
+        return
     fi
     
-    echo "unavailable (curl needed)"
+    # Fallback: try icanhazip
+    RESULT=$(curl -s https://icanhazip.com 2>/dev/null)
+    if [ -n "$RESULT" ]; then
+        echo "$RESULT"
+        return
+    fi
+    
+    echo "unavailable (no internet or curl failed)"
 }
 
 test_connectivity() {
@@ -135,9 +172,9 @@ test_connectivity() {
     
     if command -v ping >/dev/null 2>&1; then
         if ping -c 1 -W 2 "$HOST" >/dev/null 2>&1; then
-            echo "  ${G}[OK]${N} $NAME ($HOST) reachable"
+            echo "  ${G}[OK]${N}   $NAME ($HOST)"
         else
-            echo "  ${R}[FAIL]${N} $NAME ($HOST) not reachable"
+            echo "  ${R}[FAIL]${N} $NAME ($HOST)"
         fi
     else
         echo "  ${Y}[SKIP]${N} ping not available"
@@ -164,6 +201,7 @@ echo ""
 echo "${Y}Connectivity${N}"
 test_connectivity "8.8.8.8" "Google DNS"
 test_connectivity "1.1.1.1" "Cloudflare DNS"
+test_connectivity "9.9.9.9" "Quad9 DNS"
 echo ""
 
 echo "${C}===========================================${N}"
