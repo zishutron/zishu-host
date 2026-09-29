@@ -1,0 +1,2962 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f0f1a">
+<title>Zishu Host — ZISHU TRON</title>
+<meta name="description" content="Host static websites. From anywhere. Built for developers who work from mobile.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/editor/editor.main.min.css">
+<style>
+/* ==========================================
+   ZISHU HOST — DESIGN SYSTEM
+   ========================================== */
+:root {
+  --bg-0: #ffffff;
+  --bg-1: #f7f8fa;
+  --bg-2: #f0f1f4;
+  --bg-3: #e8eaee;
+  --bg-elev: #ffffff;
+  --bg-hover: rgba(0,0,0,0.035);
+  --bg-active: rgba(37,99,235,0.08);
+  --text-0: #0d1117;
+  --text-1: #24292f;
+  --text-2: #57606a;
+  --text-3: #8b949e;
+  --text-4: #b1b8c0;
+  --border-0: #e1e4e8;
+  --border-1: #d0d7de;
+  --border-2: #b1b8c0;
+  --accent: #2563eb;
+  --accent-h: #1d4ed8;
+  --accent-sub: rgba(37,99,235,0.09);
+  --accent-sub-strong: rgba(37,99,235,0.15);
+  --danger: #dc2626;
+  --danger-sub: rgba(220,38,38,0.09);
+  --success: #15803d;
+  --success-sub: rgba(21,128,61,0.10);
+  --warning: #b45309;
+  --warning-sub: rgba(180,83,9,0.10);
+  --shadow-xs: 0 1px 2px rgba(27,31,36,0.05);
+  --shadow-sm: 0 1px 3px rgba(27,31,36,0.08), 0 1px 2px rgba(27,31,36,0.05);
+  --shadow-md: 0 4px 12px rgba(27,31,36,0.08), 0 2px 4px rgba(27,31,36,0.04);
+  --shadow-lg: 0 12px 32px rgba(27,31,36,0.12), 0 4px 8px rgba(27,31,36,0.06);
+  --radius-xs: 5px;
+  --radius-sm: 7px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --sidebar-w: 248px;
+  --topbar-h: 56px;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --mono-accent: #6d28d9;
+}
+
+[data-theme="dark"] {
+  --bg-0: #0a0a14;
+  --bg-1: #0f0f1c;
+  --bg-2: #16162a;
+  --bg-3: #1e1e35;
+  --bg-elev: #16162a;
+  --bg-hover: rgba(255,255,255,0.04);
+  --bg-active: rgba(59,130,246,0.14);
+  --text-0: #f0f3f8;
+  --text-1: #e2e8f0;
+  --text-2: #a8b2c1;
+  --text-3: #6e7787;
+  --text-4: #4d5566;
+  --border-0: #22223a;
+  --border-1: #2c2c4a;
+  --border-2: #3a3a5c;
+  --accent: #3b82f6;
+  --accent-h: #60a5fa;
+  --accent-sub: rgba(59,130,246,0.15);
+  --accent-sub-strong: rgba(59,130,246,0.24);
+  --danger: #ef4444;
+  --danger-sub: rgba(239,68,68,0.14);
+  --success: #22c55e;
+  --success-sub: rgba(34,197,94,0.14);
+  --warning: #f59e0b;
+  --warning-sub: rgba(245,158,11,0.14);
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.4);
+  --mono-accent: #a78bfa;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-0);
+  color: var(--text-0);
+  line-height: 1.55;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.2s, color 0.2s;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea, select { font-family: inherit; font-size: inherit; color: inherit; }
+svg { display: block; }
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-1); border-radius: 5px; border: 2px solid var(--bg-0); }
+::-webkit-scrollbar-thumb:hover { background: var(--border-2); }
+
+/* ==========================================
+   UTILITIES
+   ========================================== */
+.hidden { display: none !important; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+
+/* ==========================================
+   BUTTONS
+   ========================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: background 0.13s, border-color 0.13s, color 0.13s, transform 0.06s;
+  white-space: nowrap;
+  text-decoration: none !important;
+  line-height: 1.4;
+  user-select: none;
+}
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
+.btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-h); color: #fff; }
+.btn-secondary { background: var(--bg-1); color: var(--text-1); border-color: var(--border-0); }
+.btn-secondary:hover { background: var(--bg-2); color: var(--text-0); border-color: var(--border-1); }
+.btn-ghost { background: transparent; color: var(--text-2); }
+.btn-ghost:hover { background: var(--bg-hover); color: var(--text-0); }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-danger:hover { background: #b91c1c; }
+.btn-danger-ghost { background: transparent; color: var(--danger); border-color: var(--border-0); }
+.btn-danger-ghost:hover { background: var(--danger-sub); border-color: var(--danger); }
+.btn-lg { padding: 11px 22px; font-size: 15px; border-radius: var(--radius); }
+.btn-sm { padding: 5px 10px; font-size: 12.5px; }
+.btn-sm svg { width: 14px; height: 14px; }
+.btn-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; padding: 0;
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  transition: background 0.13s, color 0.13s;
+}
+.btn-icon:hover { background: var(--bg-hover); color: var(--text-0); }
+.btn-icon svg { width: 17px; height: 17px; }
+.btn-icon-sm { width: 26px; height: 26px; }
+.btn-icon-sm svg { width: 14px; height: 14px; }
+
+/* ==========================================
+   FORM FIELDS
+   ========================================== */
+.field { margin-bottom: 15px; }
+.field-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 6px;
+  letter-spacing: -0.005em;
+}
+.field-hint { font-size: 12px; color: var(--text-3); margin-top: 5px; line-height: 1.5; }
+.field-error { font-size: 12.5px; color: var(--danger); margin-top: 5px; font-weight: 500; }
+.input, .textarea, .select {
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--bg-0);
+  border: 1px solid var(--border-0);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-0);
+  transition: border-color 0.13s, box-shadow 0.13s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.input::placeholder, .textarea::placeholder { color: var(--text-4); }
+.input:focus, .textarea:focus, .select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-sub);
+}
+.textarea { resize: vertical; min-height: 88px; line-height: 1.55; }
+.select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b949e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 34px;
+}
+.input-group { display: flex; align-items: stretch; }
+.input-group .input { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.input-group-addon {
+  display: flex; align-items: center;
+  padding: 0 12px;
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-left: none;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 13px;
+  color: var(--text-2);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+/* ==========================================
+   BADGES / PILLS
+   ========================================== */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.badge-success { background: var(--success-sub); color: var(--success); }
+.badge-neutral { background: var(--bg-2); color: var(--text-2); }
+.badge-warning { background: var(--warning-sub); color: var(--warning); }
+.badge-danger { background: var(--danger-sub); color: var(--danger); }
+.badge-accent { background: var(--accent-sub); color: var(--accent); }
+
+/* ==========================================
+   LOGO
+   ========================================== */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none !important;
+}
+.logo-mark {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+  color: #fff;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  box-shadow: 0 2px 6px rgba(37,99,235,0.28), inset 0 1px 0 rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+.logo-text {
+  font-weight: 700;
+  font-size: 15.5px;
+  color: var(--text-0);
+  letter-spacing: -0.015em;
+}
+
+/* ==========================================
+   TOPBAR / APP SHELL
+   ========================================== */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar (desktop) */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--bg-1);
+  border-right: 1px solid var(--border-0);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 100;
+}
+.sidebar-head {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-0);
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+}
+.sidebar-nav {
+  flex: 1;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+}
+.nav-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 14px 12px 6px;
+}
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 11px;
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  font-weight: 500;
+  font-size: 13.5px;
+  transition: background 0.12s, color 0.12s;
+  text-decoration: none !important;
+  cursor: pointer;
+  position: relative;
+}
+.nav-link svg { width: 17px; height: 17px; flex-shrink: 0; opacity: 0.85; }
+.nav-link:hover { background: var(--bg-hover); color: var(--text-0); }
+.nav-link.active {
+  background: var(--bg-active);
+  color: var(--accent);
+  font-weight: 600;
+}
+.nav-link.active svg { opacity: 1; }
+.nav-badge {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--bg-3);
+  color: var(--text-2);
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+.nav-link.active .nav-badge { background: var(--accent-sub-strong); color: var(--accent); }
+.sidebar-foot {
+  padding: 12px;
+  border-top: 1px solid var(--border-0);
+}
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.13s;
+}
+.user-card:hover { background: var(--bg-hover); }
+.user-avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 12.5px;
+  flex-shrink: 0;
+  letter-spacing: -0.01em;
+}
+.user-info { min-width: 0; flex: 1; }
+.user-name {
+  font-size: 13px; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  letter-spacing: -0.005em;
+}
+.user-meta {
+  font-size: 11.5px; color: var(--text-3);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Topbar (mobile) */
+.topbar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--topbar-h);
+  padding: 0 16px;
+  background: var(--bg-0);
+  border-bottom: 1px solid var(--border-0);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  backdrop-filter: saturate(180%) blur(8px);
+  background: color-mix(in srgb, var(--bg-0) 85%, transparent);
+}
+.topbar-actions { display: flex; align-items: center; gap: 4px; }
+
+/* Main content */
+.main {
+  flex: 1;
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.main-inner {
+  padding: 28px 32px 60px;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+}
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-0);
+}
+.page-subtitle {
+  font-size: 13.5px;
+  color: var(--text-2);
+  margin-top: 3px;
+}
+
+/* Mobile bottom nav */
+.mobile-tabs {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--bg-0);
+  border-top: 1px solid var(--border-0);
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+  z-index: 200;
+  backdrop-filter: saturate(180%) blur(8px);
+  background: color-mix(in srgb, var(--bg-0) 92%, transparent);
+}
+.mobile-tabs-row { display: flex; }
+.mtab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 4px;
+  color: var(--text-3);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-decoration: none !important;
+  border-radius: var(--radius-sm);
+  transition: color 0.13s;
+  letter-spacing: 0.01em;
+}
+.mtab svg { width: 21px; height: 21px; }
+.mtab.active { color: var(--accent); }
+
+/* ==========================================
+   CARDS / SURFACES
+   ========================================== */
+.card {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.card-pad { padding: 20px; }
+
+/* Stat cards */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.stat {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: border-color 0.15s, transform 0.12s;
+}
+.stat:hover { border-color: var(--border-1); }
+.stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 12px;
+  color: var(--text-2);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.stat-icon {
+  width: 26px; height: 26px;
+  border-radius: 7px;
+  background: var(--accent-sub);
+  color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+}
+.stat-icon svg { width: 14px; height: 14px; }
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text-0);
+  line-height: 1.15;
+}
+.stat-value small { font-size: 14px; color: var(--text-3); font-weight: 500; }
+.stat-sub {
+  font-size: 12px;
+  color: var(--text-3);
+  margin-top: 4px;
+}
+
+/* Progress bar */
+.progress {
+  height: 5px;
+  background: var(--bg-3);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+.progress-fill.warn { background: var(--warning); }
+.progress-fill.danger { background: var(--danger); }
+
+/* ==========================================
+   PROJECT CARDS
+   ========================================== */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  gap: 12px;
+}
+.section-title {
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text-0);
+}
+.section-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.section-link:hover { color: var(--accent); text-decoration: none; }
+
+.grid-projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.proj-card {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-decoration: none !important;
+  color: inherit;
+  display: block;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.12s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.proj-card:hover {
+  border-color: var(--border-1);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+.proj-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+.proj-icon {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  background: var(--accent-sub);
+  color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.proj-icon svg { width: 17px; height: 17px; }
+.proj-name {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-0);
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.proj-slug {
+  font-size: 12.5px;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  margin-bottom: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.proj-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+  color: var(--text-3);
+  padding-top: 12px;
+  border-top: 1px solid var(--border-0);
+}
+.proj-foot-left { display: flex; gap: 12px; align-items: center; }
+.proj-foot-item { display: inline-flex; align-items: center; gap: 4px; }
+.proj-foot-item svg { width: 12px; height: 12px; }
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 52px 24px;
+  background: var(--bg-1);
+  border: 1px dashed var(--border-1);
+  border-radius: var(--radius-lg);
+}
+.empty-icon {
+  width: 46px; height: 46px;
+  color: var(--text-3);
+  margin: 0 auto 14px;
+  background: var(--bg-2);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.empty-icon svg { width: 22px; height: 22px; }
+.empty h3 {
+  font-size: 15.5px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.empty p {
+  font-size: 13.5px;
+  color: var(--text-2);
+  margin-bottom: 18px;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.55;
+}
+
+/* ==========================================
+   LANDING PAGE
+   ========================================== */
+.land-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.land-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 16px;
+}
+.land-nav-actions { display: flex; gap: 8px; align-items: center; }
+.land-hero {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 60px 24px 40px;
+  text-align: center;
+}
+.land-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  background: var(--accent-sub);
+  color: var(--accent);
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 22px;
+  letter-spacing: 0.005em;
+}
+.land-eyebrow svg { width: 13px; height: 13px; }
+.land-h1 {
+  font-size: clamp(30px, 5.2vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  margin-bottom: 18px;
+  color: var(--text-0);
+}
+.land-h1 .grad {
+  background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.land-sub {
+  font-size: clamp(15px, 1.8vw, 17.5px);
+  color: var(--text-2);
+  max-width: 620px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+.land-cta { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+.land-features {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+.feat {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.feat:hover { border-color: var(--border-1); transform: translateY(-2px); }
+.feat-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--accent-sub);
+  color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+.feat-icon svg { width: 20px; height: 20px; }
+.feat h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.feat p {
+  font-size: 13.5px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* Code mock */
+.land-code {
+  max-width: 900px;
+  width: 100%;
+  margin: 20px auto 60px;
+  padding: 0 24px;
+}
+.code-window {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.code-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  background: #161b22;
+  border-bottom: 1px solid #21262d;
+}
+.code-dot { width: 10px; height: 10px; border-radius: 50%; }
+.code-dot-r { background: #ff5f56; }
+.code-dot-y { background: #ffbd2e; }
+.code-dot-g { background: #27c93f; }
+.code-title {
+  margin-left: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #8b949e;
+}
+.code-body {
+  padding: 20px 22px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: #c9d1d9;
+  overflow-x: auto;
+  white-space: pre;
+}
+.code-body .c-kw { color: #ff7b72; }
+.code-body .c-str { color: #a5d6ff; }
+.code-body .c-tag { color: #7ee787; }
+.code-body .c-attr { color: #d2a8ff; }
+.code-body .c-com { color: #8b949e; }
+
+/* Landing footer */
+.land-foot {
+  margin-top: auto;
+  border-top: 1px solid var(--border-0);
+  padding: 24px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-3);
+}
+.land-foot-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+/* ==========================================
+   PAGE VIEW SWITCHER
+   ========================================== */
+.page-view { display: none; }
+.page-view.active { display: block; }
+
+/* ==========================================
+   MODAL
+   ========================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,20,0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 1000;
+  animation: fade 0.15s ease;
+}
+.modal-backdrop.hidden { display: none; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+  background: var(--bg-0);
+  border: 1px solid var(--border-0);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 480px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  animation: modal-in 0.18s ease;
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-lg { max-width: 640px; }
+.modal-head {
+  padding: 18px 20px 12px;
+  border-bottom: 1px solid var(--border-0);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.modal-head h3 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  font-size: 13.5px;
+  color: var(--text-1);
+  line-height: 1.6;
+}
+.modal-body p { margin-bottom: 12px; }
+.modal-body p:last-child { margin-bottom: 0; }
+.modal-body .warn-box {
+  background: var(--danger-sub);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 11px 13px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 12px;
+}
+.modal-foot {
+  padding: 12px 20px 18px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid var(--border-0);
+}
+
+/* ==========================================
+   TOASTS
+   ========================================== */
+#toasts {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  max-width: calc(100vw - 32px);
+}
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--bg-0);
+  border: 1px solid var(--border-0);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  font-size: 13.5px;
+  font-weight: 500;
+  max-width: 360px;
+  pointer-events: auto;
+  animation: toast-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--text-0);
+  line-height: 1.5;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.toast.out { opacity: 0; transform: translateX(16px); transition: all 0.25s; }
+.toast.success { border-left-color: var(--success); }
+.toast.success .toast-icon { color: var(--success); }
+.toast.error { border-left-color: var(--danger); }
+.toast.error .toast-icon { color: var(--danger); }
+.toast.info .toast-icon { color: var(--accent); }
+.toast-icon { flex-shrink: 0; padding-top: 1px; }
+.toast-icon svg { width: 16px; height: 16px; }
+
+/* ==========================================
+   PROJECT DETAIL VIEW
+   ========================================== */
+.proj-detail-head {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-bottom: 20px;
+}
+.proj-detail-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.proj-detail-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.proj-detail-url {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-2);
+  background: var(--bg-2);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-0);
+  cursor: pointer;
+  transition: background 0.13s, color 0.13s;
+  text-decoration: none !important;
+}
+.proj-detail-url:hover { background: var(--bg-3); color: var(--accent); }
+.proj-detail-url svg { width: 12px; height: 12px; }
+.proj-detail-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--text-3);
+  margin-top: 8px;
+}
+.proj-detail-meta span { display: inline-flex; align-items: center; gap: 5px; }
+.proj-detail-meta svg { width: 13px; height: 13px; }
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--border-0);
+  margin-bottom: 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  padding: 9px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-2);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.13s, border-color 0.13s;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab svg { width: 15px; height: 15px; }
+.tab:hover { color: var(--text-0); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* File explorer */
+.explorer {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 0;
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 520px;
+}
+.exp-tree {
+  border-right: 1px solid var(--border-0);
+  background: var(--bg-1);
+  overflow-y: auto;
+  max-height: 640px;
+}
+.exp-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-0);
+  background: var(--bg-1);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.exp-toolbar-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-right: auto;
+}
+.tree {
+  padding: 6px 4px;
+  font-size: 13px;
+  user-select: none;
+}
+.tree-node {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  color: var(--text-1);
+  transition: background 0.1s;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+.tree-node:hover { background: var(--bg-hover); }
+.tree-node.selected { background: var(--accent-sub); color: var(--accent); font-weight: 600; }
+.tree-chev {
+  width: 14px; height: 14px;
+  flex-shrink: 0;
+  color: var(--text-3);
+  transition: transform 0.15s;
+}
+.tree-chev.open { transform: rotate(90deg); }
+.tree-chev.hidden { visibility: hidden; }
+.tree-icon {
+  width: 15px; height: 15px;
+  flex-shrink: 0;
+  color: var(--text-2);
+}
+.tree-node.folder .tree-icon { color: var(--accent); }
+.tree-node.selected .tree-icon,
+.tree-node.selected .tree-chev { color: var(--accent); }
+.tree-icon.html { color: #e34c26; }
+.tree-icon.css { color: #2965f1; }
+.tree-icon.js { color: #f7df1e; }
+.tree-icon.image { color: #16a34a; }
+.tree-icon.json { color: #d97706; }
+.tree-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.005em;
+}
+.tree-children { margin-left: 16px; }
+
+/* Empty explorer */
+.exp-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  text-align: center;
+  color: var(--text-3);
+  font-size: 13.5px;
+  min-height: 300px;
+}
+.exp-empty svg { width: 34px; height: 34px; margin-bottom: 12px; opacity: 0.6; }
+
+/* Editor */
+.editor-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-0);
+  min-width: 0;
+}
+.editor-tabs {
+  display: flex;
+  align-items: center;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border-0);
+  overflow-x: auto;
+  scrollbar-width: none;
+  min-height: 38px;
+}
+.editor-tabs::-webkit-scrollbar { display: none; }
+.editor-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 12px 8px;
+  font-size: 12.5px;
+  color: var(--text-2);
+  border-right: 1px solid var(--border-0);
+  border-top: 2px solid transparent;
+  background: transparent;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  font-family: var(--font-mono);
+  letter-spacing: -0.005em;
+  max-width: 200px;
+}
+.editor-tab:hover { background: var(--bg-hover); color: var(--text-0); }
+.editor-tab.active {
+  background: var(--bg-0);
+  color: var(--text-0);
+  border-top-color: var(--accent);
+  font-weight: 500;
+}
+.editor-tab svg { width: 13px; height: 13px; flex-shrink: 0; }
+.editor-tab-label { overflow: hidden; text-overflow: ellipsis; }
+.editor-tab .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--warning);
+  flex-shrink: 0;
+}
+.editor-tab-close {
+  width: 16px; height: 16px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-3);
+  opacity: 0;
+  transition: opacity 0.12s, background 0.12s;
+}
+.editor-tab:hover .editor-tab-close,
+.editor-tab.active .editor-tab-close { opacity: 1; }
+.editor-tab-close:hover { background: var(--bg-3); color: var(--text-1); }
+.editor-tab-close svg { width: 11px; height: 11px; }
+
+.editor-container {
+  flex: 1;
+  min-height: 460px;
+  position: relative;
+}
+#monaco {
+  position: absolute;
+  inset: 0;
+}
+
+.editor-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 12px;
+  background: var(--bg-2);
+  border-top: 1px solid var(--border-0);
+  font-size: 11.5px;
+  font-family: var(--font-mono);
+  color: var(--text-3);
+}
+.editor-status-left { display: flex; gap: 14px; align-items: center; }
+.editor-status-right { display: flex; gap: 6px; align-items: center; }
+.dot-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.dot-indicator::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+}
+.dot-indicator.dirty::before { background: var(--warning); }
+
+.editor-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  text-align: center;
+  color: var(--text-3);
+  height: 100%;
+}
+.editor-welcome svg {
+  width: 42px; height: 42px;
+  margin-bottom: 14px;
+  opacity: 0.5;
+}
+.editor-welcome p { font-size: 13.5px; }
+
+/* Mobile editor notice */
+.mobile-editor-note {
+  display: none;
+  padding: 10px 12px;
+  background: var(--warning-sub);
+  color: var(--warning);
+  font-size: 12.5px;
+  font-weight: 500;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-0);
+}
+.mobile-editor-note svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* Deployments list */
+.deploys { display: flex; flex-direction: column; gap: 8px; }
+.deploy-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--radius);
+  transition: border-color 0.13s;
+}
+.deploy-item:hover { border-color: var(--border-1); }
+.deploy-status-icon {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.deploy-status-icon svg { width: 16px; height: 16px; }
+.deploy-status-icon.success { background: var(--success-sub); color: var(--success); }
+.deploy-status-icon.failed { background: var(--danger-sub); color: var(--danger); }
+.deploy-status-icon.processing { background: var(--warning-sub); color: var(--warning); }
+.deploy-info { flex: 1; min-width: 0; }
+.deploy-msg {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-0);
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.deploy-meta {
+  font-size: 12px;
+  color: var(--text-3);
+  display: flex;
+  gap: 12px;
+  margin-top: 3px;
+  flex-wrap: wrap;
+}
+.deploy-meta span { display: inline-flex; align-items: center; gap: 4px; }
+.deploy-meta svg { width: 11px; height: 11px; }
+
+/* Settings panel */
+.settings-section {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.settings-section h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.settings-section .sec-desc {
+  font-size: 13px;
+  color: var(--text-2);
+  margin-bottom: 18px;
+  line-height: 1.55;
+}
+.danger-zone {
+  border-color: var(--danger) !important;
+  background: var(--danger-sub);
+}
+.danger-zone h3 { color: var(--danger); }
+.danger-zone .sec-desc { color: color-mix(in srgb, var(--danger) 80%, var(--text-2)); }
+
+/* Upload dropzone */
+.dropzone {
+  border: 1.5px dashed var(--border-1);
+  border-radius: var(--radius);
+  padding: 26px 20px;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+  cursor: pointer;
+  background: var(--bg-1);
+}
+.dropzone:hover, .dropzone.dragging {
+  border-color: var(--accent);
+  background: var(--accent-sub);
+}
+.dropzone svg {
+  width: 32px; height: 32px;
+  color: var(--text-3);
+  margin: 0 auto 10px;
+}
+.dropzone.dragging svg { color: var(--accent); }
+.dropzone-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 4px;
+}
+.dropzone-sub {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+/* Upload progress */
+.upload-list {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.upload-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+}
+.upload-row svg { width: 14px; height: 14px; color: var(--text-2); flex-shrink: 0; }
+.upload-row-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-1);
+}
+.upload-row-bar {
+  width: 80px;
+  height: 4px;
+  background: var(--bg-3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.upload-row-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.2s;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .topbar { display: flex; }
+  .main { margin-left: 0; }
+  .main-inner { padding: 18px 16px 90px; }
+  .mobile-tabs { display: block; }
+  .page-title { font-size: 19px; }
+  .grid-projects { grid-template-columns: 1fr; }
+  .explorer {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+  .exp-tree {
+    max-height: 320px;
+    border-right: none;
+    border-bottom: 1px solid var(--border-0);
+  }
+  .mobile-editor-note { display: flex; }
+  .editor-container { min-height: 420px; }
+  .land-hero { padding: 40px 20px 30px; }
+  .land-features { padding: 24px 20px 60px; }
+  .land-code { padding: 0 16px; }
+  .code-body { font-size: 11.5px; padding: 16px; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .land-nav { padding: 12px 16px; }
+  .land-nav-actions .btn-ghost { display: none; }
+  .proj-detail-head { padding: 18px; }
+}
+
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat { padding: 13px 14px; }
+  .stat-value { font-size: 20px; }
+  .land-cta { flex-direction: column; }
+  .land-cta .btn { width: 100%; }
+  .modal { max-width: 100%; }
+}
+
+/* ==========================================
+   REDUCED MOTION
+   ========================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================
+   UTILITIES
+   ========================================== */
+.mt-2 { margin-top: 8px; } .mt-3 { margin-top: 12px; } .mt-4 { margin-top: 16px; }
+.mb-2 { margin-bottom: 8px; } .mb-3 { margin-bottom: 12px; } .mb-4 { margin-bottom: 16px; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.grow { flex: 1; }
+</style>
+</head>
+<body>
+
+<!-- Toast container -->
+<div id="toasts"></div>
+
+<!-- ==================================================
+     LANDING VIEW
+     ================================================== -->
+<div class="page-view active" id="view-landing">
+  <div class="land-shell">
+    <nav class="land-nav">
+      <a class="logo" href="#">
+        <span class="logo-mark">Z</span>
+        <span class="logo-text">Zishu Host</span>
+      </a>
+      <div class="land-nav-actions">
+        <button class="btn-icon" id="theme-toggle-land" title="Toggle theme" aria-label="Toggle theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="btn btn-ghost" data-goto="login">Sign in</button>
+        <button class="btn btn-primary" data-goto="signup">Get started</button>
+      </div>
+    </nav>
+
+    <header class="land-hero">
+      <span class="land-eyebrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Built for developers who work from mobile
+      </span>
+      <h1 class="land-h1">
+        Host static websites.<br>
+        <span class="grad">From anywhere.</span>
+      </h1>
+      <p class="land-sub">
+        Create, edit, and deploy static sites directly from your browser. Real code editor, ZIP upload, instant deployment to <code style="font-family:var(--font-mono);font-size:0.92em;background:var(--bg-2);padding:1px 6px;border-radius:4px;">yourproject.zishuai.cloud</code>.
+      </p>
+      <div class="land-cta">
+        <button class="btn btn-primary btn-lg" data-goto="signup">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+          Start for free
+        </button>
+        <button class="btn btn-secondary btn-lg" data-goto="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          View demo dashboard
+        </button>
+      </div>
+    </header>
+
+    <section class="land-code">
+      <div class="code-window">
+        <div class="code-bar">
+          <span class="code-dot code-dot-r"></span>
+          <span class="code-dot code-dot-y"></span>
+          <span class="code-dot code-dot-g"></span>
+          <span class="code-title">index.html — zishu-host</span>
+        </div>
+        <div class="code-body"><span class="c-com">&lt;!-- Deploy in one click --&gt;</span>
+<span class="c-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="c-tag">&lt;html&gt;</span>
+  <span class="c-tag">&lt;head&gt;</span>
+    <span class="c-tag">&lt;title&gt;</span>My Portfolio<span class="c-tag">&lt;/title&gt;</span>
+  <span class="c-tag">&lt;/head&gt;</span>
+  <span class="c-tag">&lt;body&gt;</span>
+    <span class="c-tag">&lt;h1&gt;</span>Hello from Zishu Host<span class="c-tag">&lt;/h1&gt;</span>
+  <span class="c-tag">&lt;/body&gt;</span>
+<span class="c-tag">&lt;/html&gt;</span></div>
+      </div>
+    </section>
+
+    <section class="land-features">
+      <div class="feat">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <h3>Real code editor</h3>
+        <p>Monaco-powered editor with syntax highlighting, tabs, search, and mobile-friendly controls. Write production code from your phone.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3>Upload anything</h3>
+        <p>Single files, batches, or complete ZIP projects. Paths normalized, archives validated, no traversal attacks.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+        </div>
+        <h3>Instant deployment</h3>
+        <p>One click publishes your site to <strong>yourproject.zishuai.cloud</strong>. Global CDN, automatic SSL, zero config.</p>
+      </div>
+    </section>
+
+    <footer class="land-foot">
+      <span class="land-foot-brand">
+        <span class="logo-mark" style="width:18px;height:18px;font-size:9px;border-radius:5px;">Z</span>
+        ZISHU TRON
+      </span>
+      <span style="margin-left:10px;">&middot;</span>
+      <span style="margin-left:10px;">Zishu Host &copy; 2026</span>
+    </footer>
+  </div>
+</div>
+
+<!-- ==================================================
+     DASHBOARD VIEW
+     ================================================== -->
+<div class="page-view" id="view-dashboard">
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <a class="logo" href="#">
+          <span class="logo-mark">Z</span>
+          <span class="logo-text">Zishu Host</span>
+        </a>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Workspace</div>
+        <a class="nav-link active" data-nav="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-link" data-nav="projects">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span>Projects</span>
+          <span class="nav-badge" id="nav-badge-projects">3</span>
+        </a>
+        <a class="nav-link" data-nav="deployments">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+          <span>Deployments</span>
+        </a>
+        <div class="nav-section-label">Account</div>
+        <a class="nav-link" data-nav="profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </a>
+        <a class="nav-link" data-nav="admin">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Admin</span>
+        </a>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="user-card" id="user-menu">
+          <span class="user-avatar" id="user-avatar">A</span>
+          <div class="user-info">
+            <div class="user-name" id="user-name">Demo User</div>
+            <div class="user-meta" id="user-meta">demo@zishuai.cloud</div>
+          </div>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-3);flex-shrink:0;"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <!-- Mobile topbar -->
+      <header class="topbar">
+        <a class="logo" href="#">
+          <span class="logo-mark" style="width:28px;height:28px;font-size:13px;border-radius:8px;">Z</span>
+          <span class="logo-text" style="font-size:14.5px;">Zishu Host</span>
+        </a>
+        <div class="topbar-actions">
+          <button class="btn-icon" id="theme-toggle-app" title="Toggle theme" aria-label="Toggle theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+          <button class="btn-icon" title="Notifications" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard content -->
+      <div class="page-view active" id="sub-dashboard">
+        <div class="main-inner">
+          <div class="page-head">
+            <div>
+              <h1 class="page-title">Dashboard</h1>
+              <div class="page-subtitle">Overview of your projects and deployments</div>
+            </div>
+            <button class="btn btn-primary" id="btn-new-project-top">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New project
+            </button>
+          </div>
+
+          <div class="stats-row" id="stats-row"></div>
+
+          <div class="section-head">
+            <div class="section-title">Recent projects</div>
+            <a class="section-link" data-nav="projects">
+              View all
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </a>
+          </div>
+          <div class="grid-projects" id="recent-projects"></div>
+        </div>
+      </div>
+
+      <!-- Projects content -->
+      <div class="page-view" id="sub-projects">
+        <div class="main-inner">
+          <div class="page-head">
+            <div>
+              <h1 class="page-title">Projects</h1>
+              <div class="page-subtitle">All your hosted websites</div>
+            </div>
+            <button class="btn btn-primary" id="btn-new-project-list">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New project
+            </button>
+          </div>
+          <div class="grid-projects" id="all-projects"></div>
+        </div>
+      </div>
+
+      <!-- Deployments content -->
+      <div class="page-view" id="sub-deployments">
+        <div class="main-inner">
+          <div class="page-head">
+            <div>
+              <h1 class="page-title">Deployments</h1>
+              <div class="page-subtitle">Recent deployment activity across all projects</div>
+            </div>
+          </div>
+          <div class="deploys" id="deployments-list"></div>
+        </div>
+      </div>
+
+      <!-- Profile content -->
+      <div class="page-view" id="sub-profile">
+        <div class="main-inner">
+          <div class="page-head">
+            <div>
+              <h1 class="page-title">Profile</h1>
+              <div class="page-subtitle">Manage your account information</div>
+            </div>
+          </div>
+          <div class="settings-section">
+            <h3>Account details</h3>
+            <div class="sec-desc">Update your display name and email preferences.</div>
+            <div class="field">
+              <label class="field-label">Display name</label>
+              <input class="input" id="profile-name" value="Demo User">
+            </div>
+            <div class="field">
+              <label class="field-label">Email</label>
+              <input class="input" id="profile-email" value="demo@zishuai.cloud" disabled>
+              <div class="field-hint">Email cannot be changed here. Contact support if needed.</div>
+            </div>
+            <button class="btn btn-primary" id="btn-save-profile">Save changes</button>
+          </div>
+          <div class="settings-section danger-zone">
+            <h3>Danger zone</h3>
+            <div class="sec-desc">Deleting your account removes all projects, files, and deployments permanently.</div>
+            <button class="btn btn-danger" id="btn-delete-account">Delete account</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin content -->
+      <div class="page-view" id="sub-admin">
+        <div class="main-inner">
+          <div class="page-head">
+            <div>
+              <h1 class="page-title">Admin</h1>
+              <div class="page-subtitle">Platform overview and moderation</div>
+            </div>
+          </div>
+          <div class="stats-row" id="admin-stats"></div>
+          <div class="settings-section">
+            <h3>Recent deployments</h3>
+            <div class="sec-desc">Latest activity across the platform.</div>
+            <div class="deploys" id="admin-recent-deploys"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Mobile bottom tabs -->
+    <nav class="mobile-tabs">
+      <div class="mobile-tabs-row">
+        <a class="mtab active" data-nav="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Home</span>
+        </a>
+        <a class="mtab" data-nav="projects">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span>Projects</span>
+        </a>
+        <a class="mtab" data-nav="deployments">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+          <span>Deploys</span>
+        </a>
+        <a class="mtab" data-nav="profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- ==================================================
+     PROJECT DETAIL VIEW
+     ================================================== -->
+<div class="page-view" id="view-project">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <a class="logo" href="#">
+          <span class="logo-mark">Z</span>
+          <span class="logo-text">Zishu Host</span>
+        </a>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Workspace</div>
+        <a class="nav-link" data-nav="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-link active" data-nav="projects">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span>Projects</span>
+        </a>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="user-card" id="user-menu-2">
+          <span class="user-avatar">A</span>
+          <div class="user-info">
+            <div class="user-name">Demo User</div>
+            <div class="user-meta">demo@zishuai.cloud</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="btn-icon" data-nav="projects" aria-label="Back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </button>
+        <div class="logo">
+          <span class="logo-text" id="mob-project-title">my-portfolio</span>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn-icon" id="theme-toggle-app2" title="Toggle theme" aria-label="Toggle theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="main-inner">
+        <div class="proj-detail-head">
+          <div class="proj-detail-top">
+            <div>
+              <div class="proj-detail-title" id="proj-title">my-portfolio <span class="badge badge-success"><span class="badge-dot"></span>Live</span></div>
+              <a class="proj-detail-url" id="proj-url" style="margin-top:8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <span id="proj-url-text">my-portfolio.zishuai.cloud</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </a>
+              <div class="proj-detail-meta">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg> 12 files</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> 2.4 MB</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Updated 2 hours ago</span>
+              </div>
+            </div>
+            <div class="row">
+              <button class="btn btn-secondary" id="btn-preview">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Preview
+              </button>
+              <button class="btn btn-primary" id="btn-deploy">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+                Deploy
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active" data-tab="files">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            Files
+          </div>
+          <div class="tab" data-tab="deploys">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+            Deployments
+          </div>
+          <div class="tab" data-tab="settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Settings
+          </div>
+        </div>
+
+        <!-- Files tab -->
+        <div class="page-view active" id="tab-files">
+          <div class="explorer">
+            <div class="exp-tree">
+              <div class="exp-toolbar">
+                <span class="exp-toolbar-title">Files</span>
+                <button class="btn-icon btn-icon-sm" id="btn-new-file" title="New file">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                </button>
+                <button class="btn-icon btn-icon-sm" id="btn-new-folder" title="New folder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+                </button>
+                <button class="btn-icon btn-icon-sm" id="btn-upload" title="Upload">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </button>
+              </div>
+              <div class="tree" id="file-tree"></div>
+            </div>
+
+            <div class="editor-panel">
+              <div class="mobile-editor-note">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Tap a file to edit. Landscape mode recommended for best experience.
+              </div>
+              <div class="editor-tabs" id="editor-tabs"></div>
+              <div class="editor-container">
+                <div id="monaco"></div>
+              </div>
+              <div class="editor-status">
+                <div class="editor-status-left">
+                  <span class="dot-indicator" id="status-dot">Ready</span>
+                  <span id="status-pos">Ln 1, Col 1</span>
+                </div>
+                <div class="editor-status-right">
+                  <button class="btn btn-sm btn-secondary" id="btn-editor-save">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deployments tab -->
+        <div class="page-view" id="tab-deploys">
+          <div class="deploys" id="project-deploys"></div>
+        </div>
+
+        <!-- Settings tab -->
+        <div class="page-view" id="tab-settings">
+          <div class="settings-section">
+            <h3>General</h3>
+            <div class="sec-desc">Basic project information.</div>
+            <div class="field">
+              <label class="field-label">Project name</label>
+              <input class="input" id="set-name" value="my-portfolio">
+            </div>
+            <div class="field">
+              <label class="field-label">Slug</label>
+              <div class="input-group">
+                <input class="input" id="set-slug" value="my-portfolio">
+                <span class="input-group-addon">.zishuai.cloud</span>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label">Description</label>
+              <textarea class="textarea" id="set-desc">Personal portfolio website</textarea>
+            </div>
+            <div class="field">
+              <label class="field-label">Entry file</label>
+              <input class="input" id="set-entry" value="index.html">
+            </div>
+            <div class="field">
+              <label class="field-label">Visibility</label>
+              <select class="select" id="set-visibility">
+                <option>Public</option>
+                <option>Private</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" id="btn-save-settings">Save changes</button>
+          </div>
+
+          <div class="settings-section">
+            <h3>Deployment</h3>
+            <div class="sec-desc">Control how your website publishes.</div>
+            <div class="field" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+              <div>
+                <label class="field-label" style="margin-bottom:2px;">Auto deploy</label>
+                <div class="field-hint" style="margin-top:0;">Automatically deploy when files change.</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="set-autodeploy">
+                <span class="switch-track"><span class="switch-thumb"></span></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-section danger-zone">
+            <h3>Danger zone</h3>
+            <div class="sec-desc">Deleting this project removes all files, deployments, and metadata. This action cannot be undone.</div>
+            <button class="btn btn-danger" id="btn-delete-project">Delete project</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================================================
+     MODAL ROOT
+     ================================================== -->
+<div class="modal-backdrop hidden" id="modal-root"></div>
+
+<!-- ==================================================
+     MONACO LOADER + APP LOGIC
+     ================================================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+<script>
+(function() {
+'use strict';
+
+/* ============================================
+   ICONS
+   ============================================ */
+const ICONS = {
+  folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>',
+  file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
+  html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M10 12l-2 2 2 2M14 12l2 2-2 2"/></svg>',
+  css: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="12" cy="14" r="3"/></svg>',
+  js: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
+  image: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
+  json: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
+  chevron: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
+  close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+  alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+  info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+  rocket: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',
+  folderBig: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>',
+  code: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>'
+};
+
+/* ============================================
+   STATE (DEMO DATA)
+   ============================================ */
+const state = {
+  theme: localStorage.getItem('zishu-theme') || 'light',
+  page: 'landing',
+  nav: 'dashboard',
+  tab: 'files',
+  projects: [
+    { id: 'p1', name: 'my-portfolio', slug: 'my-portfolio', desc: 'Personal portfolio', status: 'deployed', files: 12, size: 2400000, updated: Date.now() - 7200000 },
+    { id: 'p2', name: 'zishu-landing', slug: 'zishu-landing', desc: 'Landing page', status: 'deployed', files: 8, size: 890000, updated: Date.now() - 86400000 },
+    { id: 'p3', name: 'docs-site', slug: 'docs-site', desc: 'Documentation site', status: 'draft', files: 24, size: 4100000, updated: Date.now() - 172800000 }
+  ],
+  tree: [
+    { name: 'index.html', type: 'file', size: 1240 },
+    { name: 'style.css', type: 'file', size: 890 },
+    { name: 'script.js', type: 'file', size: 2100 },
+    { name: 'about.html', type: 'file', size: 620 },
+    { name: 'assets', type: 'folder', children: [
+      { name: 'logo.svg', type: 'file', size: 480 },
+      { name: 'banner.png', type: 'file', size: 124000 }
+    ]},
+    { name: 'pages', type: 'folder', children: [
+      { name: 'contact.html', type: 'file', size: 720 },
+      { name: 'privacy.html', type: 'file', size: 380 }
+    ]}
+  ],
+  openTabs: [],
+  activeTab: null,
+  unsaved: {},
+  fileContents: {
+    'index.html': '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>My Portfolio</title>\n  <link rel="stylesheet" href="style.css">\n</head>\n<body>\n  <header>\n    <h1>Hello from Zishu Host</h1>\n    <p>This site is deployed and live.</p>\n  </header>\n  <script src="script.js"><\/script>\n</body>\n</html>',
+    'style.css': 'body {\n  font-family: -apple-system, BlinkMacSystemFont, sans-serif;\n  margin: 0;\n  padding: 2rem;\n  background: #0f0f1c;\n  color: #f1f5f9;\n}\n\nheader {\n  max-width: 640px;\n  margin: 4rem auto;\n  text-align: center;\n}\n\nh1 {\n  font-size: 2.5rem;\n  margin-bottom: 1rem;\n}',
+    'script.js': 'console.log("Zishu Host site loaded");\n\ndocument.addEventListener("DOMContentLoaded", () => {\n  console.log("Ready");\n});',
+    'about.html': '<!DOCTYPE html>\n<html>\n<head><title>About</title></head>\n<body>\n  <h1>About</h1>\n</body>\n</html>',
+    'pages/contact.html': '<!DOCTYPE html>\n<html>\n<head><title>Contact</title></head>\n<body>\n  <h1>Contact us</h1>\n</body>\n</html>',
+    'pages/privacy.html': '<!DOCTYPE html>\n<html>\n<head><title>Privacy</title></head>\n<body>\n  <h1>Privacy Policy</h1>\n</body>\n</html>',
+    'assets/logo.svg': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#2563eb"/></svg>'
+  }
+};
+
+/* ============================================
+   THEME
+   ============================================ */
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', state.theme);
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', state.theme === 'dark' ? '#0a0a14' : '#ffffff');
+  if (window.monaco && monaco.editor) {
+    monaco.editor.setTheme(state.theme === 'dark' ? 'vs-dark' : 'vs');
+  }
+}
+
+function toggleTheme() {
+  state.theme = state.theme === 'light' ? 'dark' : 'light';
+  localStorage.setItem('zishu-theme', state.theme);
+  applyTheme();
+  toast('Switched to ' + state.theme + ' mode', 'info');
+}
+
+/* ============================================
+   TOASTS
+   ============================================ */
+function toast(msg, type) {
+  type = type || 'info';
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icon = type === 'success' ? ICONS.check : type === 'error' ? ICONS.alert : ICONS.info;
+  el.innerHTML = '<span class="toast-icon">' + icon + '</span><span>' + escapeHtml(msg) + '</span>';
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(() => {
+    el.classList.add('out');
+    setTimeout(() => el.remove(), 300);
+  }, 3600);
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+function modal(opts) {
+  const root = document.getElementById('modal-root');
+  const sizeClass = opts.size === 'lg' ? 'modal-lg' : '';
+  const actions = (opts.actions || []).map(a =>
+    '<button class="btn ' + (a.class || 'btn-secondary') + '" data-act="' + a.action + '">' + escapeHtml(a.label) + '</button>'
+  ).join('');
+  root.innerHTML =
+    '<div class="modal ' + sizeClass + '" role="dialog">' +
+      '<div class="modal-head">' +
+        '<h3>' + escapeHtml(opts.title || '') + '</h3>' +
+        '<button class="btn-icon" data-act="__close">' + ICONS.close + '</button>' +
+      '</div>' +
+      '<div class="modal-body">' + (opts.body || '') + '</div>' +
+      (actions ? '<div class="modal-foot">' + actions + '</div>' : '') +
+    '</div>';
+  root.classList.remove('hidden');
+  root.querySelectorAll('[data-act]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const act = btn.getAttribute('data-act');
+      if (act === '__close') { closeModal(); return; }
+      const cfg = (opts.actions || []).find(a => a.action === act);
+      if (cfg && cfg.onClick) {
+        cfg.onClick(closeModal, root);
+      }
+    });
+  });
+  root.addEventListener('click', (e) => { if (e.target === root) closeModal(); }, { once: true });
+  return root;
+}
+
+function closeModal() {
+  document.getElementById('modal-root').classList.add('hidden');
+  document.getElementById('modal-root').innerHTML = '';
+}
+
+function confirmModal(title, message, onConfirm) {
+  modal({
+    title: title,
+    body: '<p>' + escapeHtml(message) + '</p>',
+    actions: [
+      { action: 'cancel', label: 'Cancel', class: 'btn-secondary' },
+      { action: 'confirm', label: 'Confirm', class: 'btn-danger', onClick: (close) => { close(); onConfirm(); } }
+    ]
+  });
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function formatBytes(b) {
+  if (!b) return '0 B';
+  const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(b) / Math.log(k));
+  return (b / Math.pow(k, i)).toFixed(i === 0 ? 0 : 1) + ' ' + sizes[i];
+}
+
+function timeAgo(ts) {
+  const s = Math.floor((Date.now() - ts) / 1000);
+  if (s < 60) return 'just now';
+  const m = Math.floor(s / 60);
+  if (m < 60) return m + 'm ago';
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + 'h ago';
+  const d = Math.floor(h / 24);
+  if (d < 30) return d + 'd ago';
+  return new Date(ts).toLocaleDateString();
+}
+
+function iconForFile(name) {
+  const ext = name.split('.').pop().toLowerCase();
+  const map = { html: 'html', htm: 'html', css: 'css', js: 'js', mjs: 'js', json: 'json', md: 'json', svg: 'image', png: 'image', jpg: 'image', jpeg: 'image', gif: 'image', webp: 'image', ico: 'image' };
+  return map[ext] || 'file';
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+function showPage(pageId) {
+  document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('view-' + pageId);
+  if (el) el.classList.add('active');
+  state.page = pageId;
+  window.scrollTo(0, 0);
+}
+
+function showSub(navId) {
+  state.nav = navId;
+  document.querySelectorAll('#view-dashboard .page-view').forEach(el => el.classList.remove('active'));
+  const sub = document.getElementById('sub-' + navId);
+  if (sub) sub.classList.add('active');
+  document.querySelectorAll('.sidebar-nav .nav-link').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('data-nav') === navId);
+  });
+  document.querySelectorAll('.mtab').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('data-nav') === navId);
+  });
+  if (navId === 'dashboard') renderStats();
+  if (navId === 'dashboard') renderRecentProjects();
+  if (navId === 'projects') renderAllProjects();
+  if (navId === 'deployments') renderDeploymentsList();
+  if (navId === 'admin') renderAdmin();
+}
+
+function showProjectTab(tab) {
+  state.tab = tab;
+  document.querySelectorAll('#view-project .tab').forEach(t => t.classList.toggle('active', t.getAttribute('data-tab') === tab));
+  document.querySelectorAll('#view-project .page-view').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('tab-' + tab);
+  if (el) el.classList.add('active');
+}
+
+/* ============================================
+   PROJECT CARD RENDER
+   ============================================ */
+function projectCardHtml(p) {
+  const badge = p.status === 'deployed'
+    ? '<span class="badge badge-success"><span class="badge-dot"></span>Live</span>'
+    : '<span class="badge badge-neutral"><span class="badge-dot"></span>Draft</span>';
+  return (
+    '<div class="proj-card" data-project="' + p.id + '">' +
+      '<div class="proj-head">' +
+        '<div class="proj-icon">' + ICONS.folder + '</div>' +
+        badge +
+      '</div>' +
+      '<div class="proj-name">' + escapeHtml(p.name) + '</div>' +
+      '<div class="proj-slug">' + escapeHtml(p.slug) + '.zishuai.cloud</div>' +
+      '<div class="proj-foot">' +
+        '<div class="proj-foot-left">' +
+          '<span class="proj-foot-item">' + ICONS.file + ' ' + p.files + '</span>' +
+          '<span class="proj-foot-item">' + ICONS.folder + ' ' + formatBytes(p.size) + '</span>' +
+        '</div>' +
+        '<span>' + timeAgo(p.updated) + '</span>' +
+      '</div>' +
+    '</div>'
+  );
+}
+
+function bindProjectCards(root) {
+  root.querySelectorAll('[data-project]').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.getAttribute('data-project');
+      const p = state.projects.find(x => x.id === id);
+      if (p) openProject(p);
+    });
+  });
+}
+
+/* ============================================
+   DASHBOARD RENDER
+   ============================================ */
+function renderStats() {
+  const el = document.getElementById('stats-row');
+  const used = state.projects.reduce((s, p) => s + p.size, 0);
+  const deployed = state.projects.filter(p => p.status === 'deployed').length;
+  const maxProj = 5, maxStore = 100 * 1024 * 1024;
+  const storePercent = Math.min(100, (used / maxStore) * 100);
+  const projPercent = (state.projects.length / maxProj) * 100;
+  el.innerHTML =
+    '<div class="stat">' +
+      '<div class="stat-top"><span class="stat-label">Projects</span><div class="stat-icon">' + ICONS.folder + '</div></div>' +
+      '<div class="stat-value">' + state.projects.length + '<small>/5</small></div>' +
+      '<div class="progress"><div class="progress-fill' + (projPercent > 80 ? ' warn' : '') + '" style="width:' + projPercent + '%"></div></div>' +
+    '</div>' +
+    '<div class="stat">' +
+      '<div class="stat-top"><span class="stat-label">Storage</span><div class="stat-icon">' + ICONS.file + '</div></div>' +
+      '<div class="stat-value">' + formatBytes(used) + '<small>/100MB</small></div>' +
+      '<div class="progress"><div class="progress-fill' + (storePercent > 80 ? ' warn' : '') + '" style="width:' + storePercent + '%"></div></div>' +
+    '</div>' +
+    '<div class="stat">' +
+      '<div class="stat-top"><span class="stat-label">Live sites</span><div class="stat-icon">' + ICONS.rocket + '</div></div>' +
+      '<div class="stat-value">' + deployed + '</div>' +
+      '<div class="stat-sub">' + (state.projects.length - deployed) + ' drafts</div>' +
+    '</div>' +
+    '<div class="stat">' +
+      '<div class="stat-top"><span class="stat-label">Deployments</span><div class="stat-icon">' + ICONS.code + '</div></div>' +
+      '<div class="stat-value">14</div>' +
+      '<div class="stat-sub">Last: 2h ago</div>' +
+    '</div>';
+  document.getElementById('nav-badge-projects').textContent = state.projects.length;
+}
+
+function renderRecentProjects() {
+  const el = document.getElementById('recent-projects');
+  const recent = state.projects.slice(0, 3);
+  if (!recent.length) {
+    el.innerHTML = emptyProjectsHtml();
+    bindNewProject(el);
+    return;
+  }
+  el.innerHTML = recent.map(projectCardHtml).join('');
+  bindProjectCards(el);
+}
+
+function renderAllProjects() {
+  const el = document.getElementById('all-projects');
+  if (!state.projects.length) {
+    el.innerHTML = emptyProjectsHtml();
+    bindNewProject(el);
+    return;
+  }
+  el.innerHTML = state.projects.map(projectCardHtml).join('');
+  bindProjectCards(el);
+}
+
+function emptyProjectsHtml() {
+  return (
+    '<div class="empty">' +
+      '<div class="empty-icon">' + ICONS.folderBig + '</div>' +
+      '<h3>No projects yet</h3>' +
+      '<p>Create your first project to get started. You can write HTML, upload files, and deploy in seconds.</p>' +
+      '<button class="btn btn-primary" data-new-project>' +
+        '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' +
+        'Create project' +
+      '</button>' +
+    '</div>'
+  );
+}
+
+function bindNewProject(root) {
+  root.querySelectorAll('[data-new-project]').forEach(b => b.addEventListener('click', openNewProjectModal));
+}
+
+/* ============================================
+   DEPLOYMENTS RENDER
+   ============================================ */
+const demoDeployments = [
+  { id: 'd1', project: 'my-portfolio', status: 'success', message: 'Update hero section', files: 12, at: Date.now() - 7200000 },
+  { id: 'd2', project: 'zishu-landing', status: 'success', message: 'Add pricing page', files: 8, at: Date.now() - 86400000 },
+  { id: 'd3', project: 'my-portfolio', status: 'success', message: 'Fix mobile nav', files: 12, at: Date.now() - 172800000 },
+  { id: 'd4', project: 'docs-site', status: 'failed', message: 'Entry file missing', files: 24, at: Date.now() - 259200000 }
+];
+
+function renderDeploymentsList() {
+  const el = document.getElementById('deployments-list');
+  el.innerHTML = demoDeployments.map(deployRowHtml).join('');
+}
+
+function deployRowHtml(d) {
+  const statusClass = d.status === 'success' ? 'success' : d.status === 'failed' ? 'failed' : 'processing';
+  const statusIcon = d.status === 'success' ? ICONS.check : d.status === 'failed' ? ICONS.alert : ICONS.info;
+  return (
+    '<div class="deploy-item">' +
+      '<div class="deploy-status-icon ' + statusClass + '">' + statusIcon + '</div>' +
+      '<div class="deploy-info">' +
+        '<div class="deploy-msg">' + escapeHtml(d.project) + ' — ' + escapeHtml(d.message) + '</div>' +
+        '<div class="deploy-meta">' +
+          '<span>' + ICONS.file + ' ' + d.files + ' files</span>' +
+          '<span>' + ICONS.info + ' ' + timeAgo(d.at) + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<span class="badge badge-' + (d.status === 'success' ? 'success' : d.status === 'failed' ? 'danger' : 'warning') + '">' + d.status + '</span>' +
+    '</div>'
+  );
+}
+
+function renderAdmin() {
+  const stats = document.getElementById('admin-stats');
+  stats.innerHTML =
+    '<div class="stat"><div class="stat-top"><span class="stat-label">Total users</span></div><div class="stat-value">142</div><div class="stat-sub">+8 this week</div></div>' +
+    '<div class="stat"><div class="stat-top"><span class="stat-label">Total projects</span></div><div class="stat-value">318</div><div class="stat-sub">Across 142 users</div></div>' +
+    '<div class="stat"><div class="stat-top"><span class="stat-label">Active deployments</span></div><div class="stat-value">287</div><div class="stat-sub">90% live</div></div>' +
+    '<div class="stat"><div class="stat-top"><span class="stat-label">Storage used</span></div><div class="stat-value">18.4 GB</div><div class="stat-sub">of 100 GB quota</div></div>';
+  document.getElementById('admin-recent-deploys').innerHTML = demoDeployments.slice(0, 3).map(deployRowHtml).join('');
+}
+
+/* ============================================
+   PROJECT DETAIL
+   ============================================ */
+function openProject(p) {
+  document.getElementById('proj-title').innerHTML = escapeHtml(p.name) + ' ' +
+    (p.status === 'deployed'
+      ? '<span class="badge badge-success"><span class="badge-dot"></span>Live</span>'
+      : '<span class="badge badge-neutral"><span class="badge-dot"></span>Draft</span>');
+  document.getElementById('proj-url-text').textContent = p.slug + '.zishuai.cloud';
+  document.getElementById('mob-project-title').textContent = p.name;
+  showPage('project');
+  renderFileTree();
+  renderProjectDeploys();
+  showProjectTab('files');
+}
+
+function renderProjectDeploys() {
+  document.getElementById('project-deploys').innerHTML = demoDeployments.filter(d => d.project === 'my-portfolio').map(deployRowHtml).join('') || '<div class="empty"><p>No deployments yet</p></div>';
+}
+
+/* ============================================
+   FILE TREE
+   ============================================ */
+function renderFileTree() {
+  const el = document.getElementById('file-tree');
+  el.innerHTML = buildTreeHtml(state.tree, '');
+}
+
+function buildTreeHtml(nodes, prefix) {
+  return nodes.map(n => {
+    const fullPath = prefix ? prefix + '/' + n.name : n.name;
+    if (n.type === 'folder') {
+      return (
+        '<div class="tree-node folder" data-path="' + escapeHtml(fullPath) + '" data-type="folder">' +
+          '<span class="tree-chev open">' + ICONS.chevron + '</span>' +
+          '<span class="tree-icon">' + ICONS.folder + '</span>' +
+          '<span class="tree-label">' + escapeHtml(n.name) + '</span>' +
+        '</div>' +
+        '<div class="tree-children">' + buildTreeHtml(n.children || [], fullPath) + '</div>'
+      );
+    }
+    const kind = iconForFile(n.name);
+    return (
+      '<div class="tree-node file' + (state.activeTab === fullPath ? ' selected' : '') + '" data-path="' + escapeHtml(fullPath) + '" data-type="file">' +
+        '<span class="tree-chev hidden">' + ICONS.chevron + '</span>' +
+        '<span class="tree-icon ' + kind + '">' + ICONS[kind] + '</span>' +
+        '<span class="tree-label">' + escapeHtml(n.name) + '</span>' +
+      '</div>'
+    );
+  }).join('');
+}
+
+/* ============================================
+   MONACO EDITOR
+   ============================================ */
+let editorInstance = null;
+let monacoReady = false;
+let monacoLoading = false;
+
+function ensureMonaco(callback) {
+  if (monacoReady) { callback(); return; }
+  if (monacoLoading) {
+    const t = setInterval(() => { if (monacoReady) { clearInterval(t); callback(); } }, 100);
+    return;
+  }
+  monacoLoading = true;
+  require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs' } });
+  require(['vs/editor/editor.main'], () => {
+    monacoReady = true;
+    callback();
+  });
+}
+
+function langFromName(name) {
+  const ext = name.split('.').pop().toLowerCase();
+  const map = { html: 'html', htm: 'html', css: 'css', js: 'javascript', mjs: 'javascript', json: 'json', md: 'markdown', svg: 'xml', xml: 'xml', txt: 'plaintext' };
+  return map[ext] || 'plaintext';
+}
+
+function openFile(path) {
+  state.activeTab = path;
+  if (!state.openTabs.includes(path)) state.openTabs.push(path);
+  renderFileTree();
+  renderEditorTabs();
+  ensureMonaco(() => {
+    if (!editorInstance) {
+      editorInstance = monaco.editor.create(document.getElementById('monaco'), {
+        value: state.fileContents[path] || '',
+        language: langFromName(path),
+        theme: state.theme === 'dark' ? 'vs-dark' : 'vs',
+        fontSize: 13,
+        fontFamily: "'JetBrains Mono', ui-monospace, Menlo, monospace",
+        fontLigatures: true,
+        minimap: { enabled: window.innerWidth > 900 },
+        scrollBeyondLastLine: false,
+        smoothScrolling: true,
+        automaticLayout: true,
+        padding: { top: 12, bottom: 12 },
+        lineNumbersMinChars: 3,
+        tabSize: 2,
+        wordWrap: 'off',
+        renderWhitespace: 'selection'
+      });
+      editorInstance.onDidChangeCursorPosition(e => {
+        document.getElementById('status-pos').textContent = 'Ln ' + e.position.lineNumber + ', Col ' + e.position.column;
+      });
+      editorInstance.onDidChangeModelContent(() => {
+        const v = editorInstance.getValue();
+        state.fileContents[state.activeTab] = v;
+        markDirty(state.activeTab, true);
+      });
+      editorInstance.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+        saveCurrentFile();
+      });
+    } else {
+      editorInstance.setValue(state.fileContents[path] || '');
+      monaco.editor.setModelLanguage(editorInstance.getModel(), langFromName(path));
+    }
+    editorInstance.focus();
+  });
+}
+
+function renderEditorTabs() {
+  const el = document.getElementById('editor-tabs');
+  if (!state.openTabs.length) { el.innerHTML = ''; return; }
+  el.innerHTML = state.openTabs.map(path => {
+    const name = path.split('/').pop();
+    const kind = iconForFile(name);
+    const dirty = state.unsaved[path] ? '<span class="dot"></span>' : '';
+    return (
+      '<div class="editor-tab' + (state.activeTab === path ? ' active' : '') + '" data-tab-path="' + escapeHtml(path) + '">' +
+        '<span style="color:var(--text-3);">' + ICONS[kind] + '</span>' +
+        '<span class="editor-tab-label">' + escapeHtml(name) + '</span>' +
+        dirty +
+        '<span class="editor-tab-close" data-close="' + escapeHtml(path) + '">' + ICONS.close + '</span>' +
+      '</div>'
+    );
+  }).join('');
+  el.querySelectorAll('[data-tab-path]').forEach(t => {
+    t.addEventListener('click', (e) => {
+      if (e.target.closest('[data-close]')) return;
+      openFile(t.getAttribute('data-tab-path'));
+    });
+  });
+  el.querySelectorAll('[data-close]').forEach(c => {
+    c.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeTab(c.getAttribute('data-close'));
+    });
+  });
+}
+
+function closeTab(path) {
+  if (state.unsaved[path]) {
+    confirmModal('Unsaved changes', 'Close "' + path + '" without saving?', () => {
+      reallyCloseTab(path);
+    });
+  } else {
+    reallyCloseTab(path);
+  }
+}
+
+function reallyCloseTab(path) {
+  state.openTabs = state.openTabs.filter(p => p !== path);
+  delete state.unsaved[path];
+  if (state.activeTab === path) {
+    state.activeTab = state.openTabs[state.openTabs.length - 1] || null;
+  }
+  renderEditorTabs();
+  renderFileTree();
+  if (state.activeTab && editorInstance) {
+    editorInstance.setValue(state.fileContents[state.activeTab] || '');
+    monaco.editor.setModelLanguage(editorInstance.getModel(), langFromName(state.activeTab));
+  } else if (editorInstance) {
+    editorInstance.setValue('');
+  }
+}
+
+function markDirty(path, dirty) {
+  if (dirty) state.unsaved[path] = true;
+  else delete state.unsaved[path];
+  renderEditorTabs();
+  const el = document.getElementById('status-dot');
+  if (Object.keys(state.unsaved).length) {
+    el.classList.add('dirty');
+    el.textContent = 'Unsaved changes';
+  } else {
+    el.classList.remove('dirty');
+    el.textContent = 'Ready';
+  }
+}
+
+function saveCurrentFile() {
+  if (!state.activeTab) { toast('No file open', 'info'); return; }
+  markDirty(state.activeTab, false);
+  toast('Saved ' + state.activeTab, 'success');
+}
+
+/* ============================================
+   NEW PROJECT MODAL
+   ============================================ */
+function slugify(s) {
+  return s.toLowerCase().trim()
+    .replace(/[^a-z0-9-]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40);
+}
+
+function openNewProjectModal() {
+  modal({
+    title: 'Create new project',
+    size: 'lg',
+    body:
+      '<div class="field">' +
+        '<label class="field-label">Project name</label>' +
+        '<input class="input" id="np-name" placeholder="My Portfolio" autocomplete="off">' +
+      '</div>' +
+      '<div class="field">' +
+        '<label class="field-label">Slug</label>' +
+        '<div class="input-group">' +
+          '<input class="input" id="np-slug" placeholder="my-portfolio" autocomplete="off">' +
+          '<span class="input-group-addon">.zishuai.cloud</span>' +
+        '</div>' +
+        '<div class="field-hint">Lowercase letters, numbers, and hyphens only. Must be unique.</div>' +
+      '</div>' +
+      '<div class="field">' +
+        '<label class="field-label">Description <span style="color:var(--text-3);font-weight:500;">(optional)</span></label>' +
+        '<textarea class="textarea" id="np-desc" placeholder="What is this project about?"></textarea>' +
+      '</div>' +
+      '<div class="field">' +
+        '<label class="field-label">Entry file</label>' +
+        '<input class="input" id="np-entry" value="index.html">' +
+      '</div>' +
+      '<div class="field">' +
+        '<label class="field-label">Visibility</label>' +
+        '<select class="select" id="np-vis">' +
+          '<option value="public">Public — anyone with the link can view</option>' +
+          '<option value="private">Private — only you can view (dashboard only)</option>' +
+        '</select>' +
+      '</div>',
+    actions: [
+      { action: 'cancel', label: 'Cancel', class: 'btn-secondary' },
+      { action: 'create', label: 'Create project', class: 'btn-primary', onClick: (close) => {
+        const name = document.getElementById('np-name').value.trim();
+        const slugInput = document.getElementById('np-slug');
+        const slug = slugInput.value.trim();
+        if (!name) { toast('Please enter a project name', 'error'); return; }
+        if (!slug) { toast('Please enter a slug', 'error'); return; }
+        if (!/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/.test(slug)) {
+          toast('Invalid slug format', 'error'); return;
+        }
+        const reserved = ['www','host','api','admin','mail','ftp','support','cdn','assets','static','dashboard'];
+        if (reserved.includes(slug)) { toast('That slug is reserved', 'error'); return; }
+        if (state.projects.some(p => p.slug === slug)) { toast('Slug already in use', 'error'); return; }
+        if (state.projects.length >= 5) { toast('Project limit reached (5)', 'error'); return; }
+        const newP = {
+          id: 'p' + Date.now(),
+          name, slug,
+          desc: document.getElementById('np-desc').value.trim(),
+          status: 'draft',
+          files: 0,
+          size: 0,
+          updated: Date.now()
+        };
+        state.projects.unshift(newP);
+        toast('Project "' + name + '" created', 'success');
+        close();
+        renderStats();
+        renderRecentProjects();
+        if (state.nav === 'projects') renderAllProjects();
+        openProject(newP);
+      }}
+    ]
+  });
+
+  const nameInput = document.getElementById('np-name');
+  const slugInput = document.getElementById('np-slug');
+  nameInput.addEventListener('input', () => {
+    if (!slugInput.dataset.touched) {
+      slugInput.value = slugify(nameInput.value);
+    }
+  });
+  slugInput.addEventListener('input', () => {
+    slugInput.dataset.touched = '1';
+    slugInput.value = slugify(slugInput.value);
+  });
+  setTimeout(() => nameInput.focus(), 60);
+}
+
+/* ============================================
+   EVENT BINDINGS
+   ============================================ */
+function bindEvents() {
+  // Theme toggles
+  document.querySelectorAll('#theme-toggle-land, #theme-toggle-app, #theme-toggle-app2').forEach(btn => {
+    if (btn) btn.addEventListener('click', toggleTheme);
+  });
+
+  // Landing nav
+  document.querySelectorAll('[data-goto]').forEach(el => {
+    el.addEventListener('click', () => {
+      const target = el.getAttribute('data-goto');
+      if (target === 'signup' || target === 'login') {
+        toast('Auth flow opens in production (requires Firebase setup)', 'info');
+        return;
+      }
+      if (target === 'dashboard') {
+        showPage('dashboard');
+        showSub('dashboard');
+      }
+    });
+  });
+
+  // Sidebar / mobile nav
+  document.querySelectorAll('[data-nav]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const nav = el.getAttribute('data-nav');
+      if (state.page !== 'dashboard') showPage('dashboard');
+      showSub(nav);
+    });
+  });
+
+  // New project buttons
+  document.getElementById('btn-new-project-top').addEventListener('click', openNewProjectModal);
+  document.getElementById('btn-new-project-list').addEventListener('click', openNewProjectModal);
+
+  // Tabs on project page
+  document.querySelectorAll('#view-project .tab').forEach(t => {
+    t.addEventListener('click', () => showProjectTab(t.getAttribute('data-tab')));
+  });
+
+  // File tree clicks
+  document.getElementById('file-tree').addEventListener('click', (e) => {
+    const node = e.target.closest('.tree-node');
+    if (!node) return;
+    const path = node.getAttribute('data-path');
+    const type = node.getAttribute('data-type');
+    if (type === 'folder') {
+      const chev = node.querySelector('.tree-chev');
+      const children = node.nextElementSibling;
+      if (chev && children) {
+        chev.classList.toggle('open');
+        children.style.display = children.style.display === 'none' ? '' : 'none';
+      }
+    } else {
+      if (!state.fileContents[path] && !path.match(/\.(png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf)$/i)) {
+        state.fileContents[path] = '<!-- ' + path + ' -->\n';
+      }
+      openFile(path);
+    }
+  });
+
+  // New file
+  document.getElementById('btn-new-file').addEventListener('click', () => {
+    modal({
+      title: 'New file',
+      body:
+        '<div class="field">' +
+          '<label class="field-label">File path</label>' +
+          '<input class="input" id="nf-path" placeholder="pages/about.html" autocomplete="off">' +
+          '<div class="field-hint">Use forward slashes for folders. Folders are created automatically.</div>' +
+        '</div>',
+      actions: [
+        { action: 'cancel', label: 'Cancel', class: 'btn-secondary' },
+        { action: 'create', label: 'Create', class: 'btn-primary', onClick: (close) => {
+          const path = document.getElementById('nf-path').value.trim();
+          if (!path) { toast('Enter a file path', 'error'); return; }
+          if (path.includes('..') || path.startsWith('/')) { toast('Invalid path', 'error'); return; }
+          if (state.fileContents[path] !== undefined) { toast('File already exists', 'error'); return; }
+          state.fileContents[path] = '';
+          insertIntoTree(path);
+          renderFileTree();
+          close();
+          openFile(path);
+          toast('File created', 'success');
+        }}
+      ]
+    });
+    setTimeout(() => document.getElementById('nf-path').focus(), 60);
+  });
+
+  // New folder
+  document.getElementById('btn-new-folder').addEventListener('click', () => {
+    modal({
+      title: 'New folder',
+      body:
+        '<div class="field">' +
+          '<label class="field-label">Folder path</label>' +
+          '<input class="input" id="nd-path" placeholder="pages" autocomplete="off">' +
+        '</div>',
+      actions: [
+        { action: 'cancel', label: 'Cancel', class: 'btn-secondary' },
+        { action: 'create', label: 'Create folder', class: 'btn-primary', onClick: (close) => {
+          const path = document.getElementById('nd-path').value.trim().replace(/\/+$/, '');
+          if (!path) { toast('Enter a folder name', 'error'); return; }
+          if (path.includes('..') || path.startsWith('/')) { toast('Invalid path', 'error'); return; }
+          insertIntoTree(path + '/.keep', true);
+          renderFileTree();
+          close();
+          toast('Folder created', 'success');
+        }}
+      ]
+    });
+    setTimeout(() => document.getElementById('nd-path').focus(), 60);
+  });
+
+  // Upload
+  document.getElementById('btn-upload').addEventListener('click', openUploadModal);
+
+  // Preview
+  document.getElementById('btn-preview').addEventListener('click', () => {
+    toast('Preview opens ' + document.getElementById('proj-url-text').textContent + ' after deployment', 'info');
+  });
+
+  // Deploy
+  document.getElementById('btn-deploy').addEventListener('click', () => {
+    modal({
+      title: 'Deploy project',
+      body:
+        '<p>Deploy current files to <strong>' + escapeHtml(document.getElementById('proj-url-text').textContent) + '</strong>?</p>' +
+        '<div class="field mt-3">' +
+          '<label class="field-label">Deployment message</label>' +
+          '<input class="input" id="dep-msg" value="Deploy from Zishu Host dashboard">' +
+        '</div>',
+      actions: [
+        { action: 'cancel', label: 'Cancel', class: 'btn-secondary' },
+        { action: 'deploy', label: 'Deploy now', class: 'btn-primary', onClick: (close) => {
+          close();
+          simulateDeploy();
+        }}
+      ]
+    });
+  });
+
+  // Save button
+  document.getElementById('btn-editor-save').addEventListener('click', saveCurrentFile);
+
+  // Save settings
+  document.getElementById('btn-save-settings').addEventListener('click', () => {
+    toast('Settings saved', 'success');
+  });
+
+  // Delete project
+  document.getElementById('btn-delete-project').addEventListener('click', () => {
+    confirmModal('Delete project', 'This will permanently delete the project and all its files. This cannot be undone.', () => {
+      toast('Project deleted (demo)', 'success');
+      showPage('dashboard');
+      showSub('projects');
+    });
+  });
+
+  // Delete account
+  document.getElementById('btn-delete-account').addEventListener('click', () => {
+    confirmModal('Delete account', 'This will permanently delete your account, all projects, and all files. This cannot be undone.', () => {
+      toast('Account deletion requires backend', 'error');
+    });
+  });
+
+  // Save profile
+  document.getElementById('btn-save-profile').addEventListener('click', () => {
+    toast('Profile saved', 'success');
+  });
+
+  // Unload warning for unsaved changes
+  window.addEventListener('beforeunload', (e) => {
+    if (Object.keys(state.unsaved).length) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+}
+
+function insertIntoTree(path, isFolder) {
+  const parts = path.split('/');
+  let current = state.tree;
+  for (let i = 0; i < parts.length - 1; i++) {
+    const name = parts[i];
+    let folder = current.find(n => n.name === name && n.type === 'folder');
+    if (!folder) {
+      folder = { name, type: 'folder', children: [] };
+      current.push(folder);
+    }
+    current = folder.children;
+  }
+  const leaf = parts[parts.length - 1];
+  if (!current.find(n => n.name === leaf)) {
+    if (isFolder) {
+      current.push({ name: leaf, type: 'folder', children: [] });
+    } else {
+      current.push({ name: leaf, type: 'file', size: 0 });
+    }
+  }
+}
+
+/* ============================================
+   UPLOAD MODAL
+   ============================================ */
+function openUploadModal() {
+  modal({
+    title: 'Upload files',
+    size: 'lg',
+    body:
+      '<div class="dropzone" id="dz">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>' +
+        '<div class="dropzone-title">Drop files here or click to select</div>' +
+        '<div class="dropzone-sub">Images, HTML, CSS, JS, ZIP (max 10 MB per file)</div>' +
+        '<input type="file" id="file-input" multiple style="display:none">' +
+      '</div>' +
+      '<div class="upload-list" id="upload-list"></div>',
+    actions: [
+      { action: 'close', label: 'Close', class: 'btn-secondary' }
+    ]
+  });
+  const dz = document.getElementById('dz');
+  const input = document.getElementById('file-input');
+  dz.addEventListener('click', () => input.click());
+  dz.addEventListener('dragover', (e) => { e.preventDefault(); dz.classList.add('dragging'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('dragging'));
+  dz.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dz.classList.remove('dragging');
+    handleFiles(e.dataTransfer.files);
+  });
+  input.addEventListener('change', () => handleFiles(input.files));
+}
+
+function handleFiles(files) {
+  const list = document.getElementById('upload-list');
+  Array.from(files).forEach(file => {
+    if (file.size > 10 * 1024 * 1024) {
+      toast(file.name + ' exceeds 10 MB limit', 'error');
+      return;
+    }
+    const row = document.createElement('div');
+    row.className = 'upload-row';
+    row.innerHTML =
+      '<span style="color:var(--text-3);">' + ICONS.file + '</span>' +
+      '<span class="upload-row-name">' + escapeHtml(file.name) + '</span>' +
+      '<span class="upload-row-bar"><span class="upload-row-fill" style="width:0%"></span></span>';
+    list.appendChild(row);
+    const fill = row.querySelector('.upload-row-fill');
+    let p = 0;
+    const interval = setInterval(() => {
+      p += 12 + Math.random() * 18;
+      if (p >= 100) {
+        p = 100;
+        clearInterval(interval);
+        setTimeout(() => {
+          insertIntoTree(file.name);
+          if (file.name.match(/\.(txt|html|css|js|json|md|svg)$/i)) {
+            state.fileContents[file.name] = '<!-- Uploaded: ' + file.name + ' -->';
+          }
+          renderFileTree();
+          toast('Uploaded ' + file.name, 'success');
+        }, 200);
+      }
+      fill.style.width = p + '%';
+    }, 120);
+  });
+}
+
+/* ============================================
+   SIMULATED DEPLOY
+   ============================================ */
+function simulateDeploy() {
+  toast('Deployment started...', 'info');
+  setTimeout(() => {
+    const p = state.projects.find(x => x.slug === document.getElementById('proj-url-text').textContent.replace('.zishuai.cloud', ''));
+    if (p) {
+      p.status = 'deployed';
+      p.updated = Date.now();
+    }
+    toast('Deployment successful — live at ' + document.getElementById('proj-url-text').textContent, 'success');
+    openProject(p || state.projects[0]);
+  }, 1600);
+}
+
+/* ============================================
+   INIT
+   ============================================ */
+applyTheme();
+bindEvents();
+renderStats();
+renderRecentProjects();
+
+// Global escape for inline onclick in welcome editor
+window.openFile = openFile;
+
+})();
+</script>
+</body>
+</html>
