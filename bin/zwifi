@@ -1,0 +1,93 @@
+#!/system/bin/sh
+# zwifi - Zishu WiFi Information Tool
+# Android-compatible version
+
+set -e
+
+R='\033[0;31m'
+G='\033[0;32m'
+Y='\033[0;33m'
+C='\033[0;36m'
+N='\033[0m'
+
+print_header() {
+    echo ""
+    echo "${C}===========================================${N}"
+    echo "${C}|${N}  ${G}Zishu WiFi Info${N}                       ${C}|${N}"
+    echo "${C}===========================================${N}"
+    echo ""
+}
+
+get_ssid() {
+    SSID=$(getprop wifi.interface 2>/dev/null)
+    
+    if command -v dumpsys >/dev/null 2>&1; then
+        TEMP=$(dumpsys wifi 2>/dev/null | grep "SSID:" | head -1)
+        if [ -n "$TEMP" ]; then
+            SSID=$(echo "$TEMP" | cut -d'"' -f2)
+        fi
+    fi
+    
+    if [ -z "$SSID" ]; then
+        echo "unavailable"
+    else
+        echo "$SSID"
+    fi
+}
+
+get_bssid() {
+    BSSID=""
+    
+    if command -v ip >/dev/null 2>&1; then
+        BSSID=$(ip link show wlan0 2>/dev/null | grep "link/ether" | cut -d' ' -f2)
+    fi
+    
+    if [ -z "$BSSID" ]; then
+        if [ -f /sys/class/net/wlan0/address ]; then
+            BSSID=$(cat /sys/class/net/wlan0/address 2>/dev/null)
+        fi
+    fi
+    
+    if [ -z "$BSSID" ]; then
+        echo "unavailable"
+    else
+        echo "$BSSID"
+    fi
+}
+
+get_ip() {
+    IP=""
+    IP=$(getprop dhcp.wlan0.ipaddress 2>/dev/null)
+    
+    if [ -z "$IP" ] && command -v ip >/dev/null 2>&1; then
+        IP=$(ip -4 addr show wlan0 2>/dev/null | grep "inet " | cut -d' ' -f6 | cut -d'/' -f1)
+    fi
+    
+    if [ -z "$IP" ]; then
+        echo "unavailable"
+    else
+        echo "$IP"
+    fi
+}
+
+get_state() {
+    STATE=$(getprop wifi.status 2>/dev/null)
+    
+    if [ -d /sys/class/net/wlan0 ]; then
+        echo "${G}ON${N}"
+    else
+        echo "${R}OFF${N}"
+    fi
+}
+
+# Main
+print_header
+echo "  WiFi Status:    $(get_state)"
+echo ""
+echo "${Y}Connection${N}"
+echo "  SSID:           $(get_ssid)"
+echo "  BSSID (MAC):    $(get_bssid)"
+echo "  Local IP:       $(get_ip)"
+echo ""
+echo "${C}===========================================${N}"
+echo ""
