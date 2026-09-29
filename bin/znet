@@ -1,0 +1,147 @@
+#!/system/bin/sh
+# znet - Zishu Network Information Tool
+# Part of Zishu Terminal (com.zishu.terminal)
+# License: MIT
+# Copyright (c) 2025 ZISHU TRON
+
+set -e
+
+# Colors
+R='\033[0;31m'
+G='\033[0;32m'
+Y='\033[0;33m'
+B='\033[0;34m'
+C='\033[0;36m'
+N='\033[0m'
+
+print_header() {
+    echo ""
+    echo "${C}╔═══════════════════════════════════════════════╗${N}"
+    echo "${C}║${N}  ${G}Zishu Network Info${N}                          ${C}║${N}"
+    echo "${C}╚═══════════════════════════════════════════════╝${N}"
+    echo ""
+}
+
+print_section() {
+    echo "${Y}▸ $1${N}"
+}
+
+get_local_ip() {
+    # Try multiple methods
+    IP=""
+    
+    # Method 1: ip command
+    if command -v ip >/dev/null 2>&1; then
+        IP=$(ip -4 addr show wlan0 2>/dev/null | grep -oP 'inet \K[0-9.]+' | head -1)
+    fi
+    
+    # Method 2: getprop
+    if [ -z "$IP" ]; then
+        IP=$(getprop dhcp.wlan0.ipaddress 2>/dev/null)
+    fi
+    
+    # Method 3: ifconfig
+    if [ -z "$IP" ] && command -v ifconfig >/dev/null 2>&1; then
+        IP=$(ifconfig wlan0 2>/dev/null | grep -oE 'inet addr:[0-9.]+' | cut -d: -f2)
+    fi
+    
+    # Method 4: any interface
+    if [ -z "$IP" ] && command -v ip >/dev/null 2>&1; then
+        IP=$(ip -4 addr show 2>/dev/null | grep -oP 'inet \K[0-9.]+' | grep -v '127.0.0.1' | head -1)
+    fi
+    
+    if [ -z "$IP" ]; then
+        echo "unavailable"
+    else
+        echo "$IP"
+    fi
+}
+
+get_gateway() {
+    GW=""
+    
+    if command -v ip >/dev/null 2>&1; then
+        GW=$(ip route 2>/dev/null | grep default | awk '{print $3}' | head -1)
+    fi
+    
+    if [ -z "$GW" ]; then
+        GW=$(getprop dhcp.wlan0.gateway 2>/dev/null)
+    fi
+    
+    if [ -z "$GW" ]; then
+        echo "unavailable"
+    else
+        echo "$GW"
+    fi
+}
+
+get_dns() {
+    DNS=""
+    
+    DNS=$(getprop net.dns1 2>/dev/null)
+    if [ -z "$DNS" ]; then
+        DNS=$(getprop dhcp.wlan0.dns1 2>/dev/null)
+    fi
+    
+    if [ -z "$DNS" ]; then
+        echo "unavailable"
+    else
+        echo "$DNS"
+    fi
+}
+
+get_interface() {
+    IF=""
+    
+    if command -v ip >/dev/null 2>&1; then
+        IF=$(ip link show 2>/dev/null | grep -v 'lo:' | grep -E '^[0-9]+:' | head -1 | awk -F: '{print $2}' | tr -d ' ')
+    fi
+    
+    if [ -z "$IF" ]; then
+        echo "unavailable"
+    else
+        echo "$IF"
+    fi
+}
+
+get_public_ip() {
+    # Try with curl (Java-based in Zishu)
+    if command -v zcurl >/dev/null 2>&1; then
+        zcurl -s https://api.ipify.org 2>/dev/null || echo "unavailable"
+    elif command -v curl >/dev/null 2>&1; then
+        curl -s --max-time 5 https://api.ipify.org 2>/dev/null || echo "unavailable"
+    else
+        echo "curl not available"
+    fi
+}
+
+# Main
+print_header
+
+print_section "Local Network"
+echo "  Interface:     $(get_interface)"
+echo "  Local IP:      $(get_local_ip)"
+echo "  Gateway:       $(get_gateway)"
+echo ""
+
+print_section "DNS"
+echo "  Primary DNS:   $(get_dns)"
+echo ""
+
+print_section "Public IP"
+echo "  Public IP:     $(get_public_ip)"
+echo ""
+
+print_section "Connectivity Test"
+if command -v ping >/dev/null 2>&1; then
+    if ping -c 1 -W 2 8.8.8.8 >/dev/null 2>&1; then
+        echo "  ${G}✓${N} Internet reachable (8.8.8.8)"
+    else
+        echo "  ${R}✗${N} No internet (8.8.8.8)"
+    fi
+else
+    echo "  ping not available"
+fi
+echo ""
+
+echo "${C}═══════════════════════════════════════════════${N}"
