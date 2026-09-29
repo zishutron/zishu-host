@@ -1,0 +1,79 @@
+#!/system/bin/sh
+# zdns - Zishu DNS Lookup Tool
+# Android-compatible version
+
+set -e
+
+R='\033[0;31m'
+G='\033[0;32m'
+Y='\033[0;33m'
+C='\033[0;36m'
+N='\033[0m'
+
+print_header() {
+    echo ""
+    echo "${C}===========================================${N}"
+    echo "${C}|${N}  ${G}Zishu DNS Lookup${N}                     ${C}|${N}"
+    echo "${C}===========================================${N}"
+    echo ""
+}
+
+usage() {
+    echo "Usage: zdns <domain>"
+    echo ""
+    echo "Examples:"
+    echo "  zdns google.com"
+    echo "  zdns github.com"
+    echo ""
+    echo "Note: Uses system resolver. Full DNS record types"
+    echo "      (MX, TXT) require 'nslookup' or 'dig' which"
+    echo "      may not be available on all Android devices."
+    echo ""
+}
+
+if [ $# -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    usage
+    exit 0
+fi
+
+DOMAIN="$1"
+
+print_header
+echo "  Domain: $DOMAIN"
+echo ""
+
+# Method 1: nslookup (if available)
+if command -v nslookup >/dev/null 2>&1; then
+    echo "${Y}Using nslookup:${N}"
+    nslookup "$DOMAIN" 2>/dev/null | sed 's/^/  /'
+    echo ""
+    exit 0
+fi
+
+# Method 2: host (if available)
+if command -v host >/dev/null 2>&1; then
+    echo "${Y}Using host:${N}"
+    host "$DOMAIN" 2>/dev/null | sed 's/^/  /'
+    echo ""
+    exit 0
+fi
+
+# Method 3: ping to resolve
+if command -v ping >/dev/null 2>&1; then
+    echo "${Y}Resolving via ping:${N}"
+    RESULT=$(ping -c 1 -W 3 "$DOMAIN" 2>&1 | head -1)
+    if [ -n "$RESULT" ]; then
+        echo "  $RESULT"
+    else
+        echo "  ${R}Could not resolve $DOMAIN${N}"
+    fi
+    echo ""
+    echo "${Y}Note:${N} For full DNS records (MX, TXT, NS),"
+    echo "      install 'busybox' or 'bind-utils' from"
+    echo "      a package manager."
+    echo ""
+    exit 0
+fi
+
+echo "${R}No DNS resolver available${N}"
+echo ""
